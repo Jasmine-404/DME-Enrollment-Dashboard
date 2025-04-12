@@ -1,0 +1,2 @@
+wards: https://opendata.dc.gov/datasets/wards-from-2022
+schoolPointsSample: https://edscape.dc.gov/node/1729531

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DCampus</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="./css/style.css" rel="stylesheet">
+  
+</head>
+<body>
+  <!-- Title container -->
+  <div id="title-container">
+    <h1>DCampus</h1>
+    <div id="button-container">
+      <button id="data-analysis-btn">Map</button>
+      <button id="report-observation-btn">Prediction</button>
+      <button id="about-btn">About</button>
+
+    </div>
+  </div>
+
+    <!-- About popup -->
+    <div id="about-popup" class="popup">
+        <div class="popup-content">
+          <h2>About DCampus</h2>
+          <p>DCampus is a project that provides interactive mapping and dashboard visualizations for matriculation prediction in Washington DC.</p>
+          <button id="close-popup-btn">Got it</button>
+        </div>
+      </div>
+
+  <!-- Main content container -->
+  <div id="content">
+   <!-- Left panel -->
+   <div id="filter-panel">
+    <h2>Filter</h2>
+    <div id="school-sector-container">
+        <label for="sector-selector">School sector<br></label>
+        <input type="radio" name="sector" value="DCPS"> DCPS<br>
+        <input type="radio" name="sector" value="Public Charter"> Public Charter<br>
+    </div>
+
+    <!--dropdown box-->
+    <div id="drop-down-box-container">
+        <div class="controls">
+            <label for="ward-selector"><br>Ward</label>
+            <select id="ward-select">
+            <option value="">Select Ward</option>
+            </select>
+
+            <label for="school-year-selector">Select School Year</label>
+            <select id="school-year-select">
+            <option value="">Select School Year</option>
+            </select>
+            
+            <label for="grade-selector">Select Grade</label>
+            <select id="grade-select">
+            <option value="">Select Grade</option>
+            </select>
+        </div>
+        
+    </div>
+    
+    <!--search school name-->
+    <div id="search-school-name-container">
+        <label for="school-search">Search School Name</label>
+        <input type="text" id="school-search" placeholder="Enter school name">
+        <ul id="school-suggestions" class="suggestions-list"></ul>
+    </div>
+    
+    
+   </div>
+
+
+    <!-- Map container -->
+
+    <div id="map">
+          <!--
+        <div id="map-controls">
+        <select id="layer-toggle-select">
+            <option value="points">Point Map</option>
+            <option value="heatmap">Heat Map</option>
+        </select>
+        </div>
+            -->
+    </div>
+
+
+   <!-- Right panel -->
+    <div id="info-panel">
+      <h2>Infomation Panel</h2>
+        <!--info box-->
+        <div id="info-box">
+         <p id="info-text">Click the points to see detailed information.</p>
+        </div>
+        <!-- bar chart -->
+        <div id="chart-container">
+         <canvas id="bar-chart"></canvas>
+        </div>
+    </div>
+  </div>
+  
+  <!-- Legend container -->
+  <div id="legend" class="legend">
+    <div class="legend-item">
+        <div class="color-box" style="background-color: red;"></div>
+        <span>Public Charter School</span>
+    </div>
+    <div class="legend-item">
+        <div class="color-box" style="background-color: skyblue;"></div>
+        <span>DCPS School</span>
+    </div>
+  </div>
+
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script type="module" src="./js/main.js"></script>  
+</body>
+</html>
