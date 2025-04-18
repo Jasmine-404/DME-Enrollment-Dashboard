@@ -20,7 +20,7 @@ export function addMarkers(map, data, onMarkerClick) {
   
   data.features.forEach(feature => {
     // Get the neighborhood this school belongs to
-    const neighborhood = feature.properties.Ward__2022;
+    // const neighborhood = feature.properties.Ward__2022;
     
     const marker = L.circleMarker(
       [feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 
@@ -28,15 +28,29 @@ export function addMarkers(map, data, onMarkerClick) {
     ).addTo(map);
 
     // Store properties for filtering
-    marker.neighborhood = neighborhood;
-    marker.schoolYear = feature.properties.School_yea;
-    marker.grade = feature.properties.School_gra;
+    //marker.neighborhood = neighborhood;
+    // marker.schoolYear = feature.properties.school_year;
+    // marker.grade = feature.properties.grade_level;
     
     // Add tooltip
-    marker.bindTooltip(`Name: ${feature.properties.School_nam}`, {
+    marker.bindTooltip(`${feature.properties.school_name}`, {
       permanent: false,
       direction: 'top',
       className: 'custom-tooltip'
+    });
+
+    // adjust styling for hover effect
+    marker.on('mouseover', function() {
+      marker.setStyle({
+          radius: 10,
+          color: 'black'
+      });
+    });
+    marker.on('mouseout', function() {
+      marker.setStyle({
+          radius: 5,
+          fillOpacity: 0.8
+      });
     });
     
     // Add click event

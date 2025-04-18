@@ -26,18 +26,18 @@ async function initApp() {
   
   // Load neighborhood data
   const neighborhoods = await addNeighborhoods(map, 'data/DCwards.geojson', neighborhoodStyle);
-  hoodsLayer = neighborhoods.layer;
+  hoodsLayer = neighborhoods.data;
   hoodsCollection = neighborhoods.collection;
   
   // Load school data
-  const schools = await loadSchoolData(map, 'data/schoolPointsSample.geojson');
+  const schools = await loadSchoolData(map, 'data/glm_draft_output.geojson');
   schoolData = schools.data;
   
   // Set up click handler for markers
   function onMarkerClick(feature, data) {
     // Show school info
     const infoBox = document.getElementById('info-box');
-    infoBox.innerHTML = `Name: ${feature.properties.School_nam}<br>Address: ${feature.properties.Facility_a}<br>School Sector: ${feature.properties.School_sec}<br>Ward: ${feature.properties.Ward__2022}`;
+    infoBox.innerHTML = `Name: ${feature.properties.school_name}<br>Address: ${feature.properties.Facility_a}<br>School Sector: ${feature.properties.school_sector}<br>Ward: ${feature.properties.Ward__2022}`;
     
     // Create enrollment chart
     createEnrollmentChart(feature, data);

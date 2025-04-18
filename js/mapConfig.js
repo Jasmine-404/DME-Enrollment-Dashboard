@@ -1,5 +1,5 @@
 // Map initialization and configuration
-export function initializeMap(elementId, center = [38.9072, -77.0369], zoom = 12) {
+export function initializeMap(elementId, center = [38.9072, -77.0369], zoom = 15) {
     const mapEl = document.querySelector(elementId);
     const map = L.map(mapEl).setView(center, zoom);
   
@@ -22,16 +22,27 @@ export function initializeMap(elementId, center = [38.9072, -77.0369], zoom = 12
     const response = await fetch(url);
     const collection = await response.json();
     
-    const layer = L.geoJSON(collection, { style }).addTo(map);
+    const data = L.geoJSON(collection, { style, onEachFeature:wardsHover,
+
+    }).addTo(map);
     
+    function wardsHover(feature, layer) {
     // Add tooltip to neighborhoods
-    layer.bindTooltip(layer => {
-      const hood = layer.feature;
-      const name = hood.properties['NAME'];
-      return `${name}`;
-    });
+      layer.bindTooltip(`${feature.properties.NAME}`);
+
+      layer.on('mouseover', function() {
+        layer.setStyle({
+            fillOpacity: 0.8
+        });
+      });
+      layer.on('mouseout', function() {
+        layer.setStyle({
+            fillOpacity: 0.55
+          });
+        });
+      };
     
     map.fitBounds(layer.getBounds());
-    
-    return { layer, collection };
+
+    return { collection, data };
   }
