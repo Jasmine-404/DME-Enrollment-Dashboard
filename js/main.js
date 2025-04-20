@@ -1,10 +1,10 @@
 // Main entry point for the application
-import { initializeMap, addNeighborhoods } from './mapConfig.js';
+import { initializeMap } from './mapConfig.js';
 import { neighborhoodStyle } from './layerStyles.js';
-import { loadSchoolData, addMarkers } from './dataLoaders.js';
+import { loadSchoolData, addNeighborhoods, addMarkers } from './dataLoaders.js';
 import { createEnrollmentChart } from './chart.js';
 import { 
-  populateNeighborhoodDropdown, 
+//  populateNeighborhoodDropdown, 
   populateSchoolYearDropdown, 
   populateGradeDropdown,
   setupFilterEventListeners 
@@ -12,12 +12,17 @@ import {
 import { setupSchoolSearch } from './search.js';
 import { initializePopup } from './popup.js';
 
+
 // Global variables
 let map;
+let map2;
 let markers = [];
+let markers2 = [];
 let hoodsLayer;
+let hoodsLayer2;
 let hoodsCollection;
 let schoolData;
+let map2Initialized = false
 
 // Initialize the application
 async function initApp() {
@@ -30,14 +35,14 @@ async function initApp() {
   hoodsCollection = neighborhoods.collection;
   
   // Load school data
-  const schools = await loadSchoolData(map, 'data/schoolPointsSample.geojson');
+  const schools = await loadSchoolData(map, 'data/glm_draft_output.geojson');
   schoolData = schools.data;
   
   // Set up click handler for markers
   function onMarkerClick(feature, data) {
     // Show school info
     const infoBox = document.getElementById('info-box');
-    infoBox.innerHTML = `Name: ${feature.properties.School_nam}<br>Address: ${feature.properties.Facility_a}<br>School Sector: ${feature.properties.School_sec}<br>Ward: ${feature.properties.Ward__2022}`;
+    infoBox.innerHTML = `Name: ${feature.properties.school_name}<br>School Sector: ${feature.properties.school_sector}<br>Ward: ${feature.properties.Ward}`;
     
     // Create enrollment chart
     createEnrollmentChart(feature, data);
@@ -47,7 +52,7 @@ async function initApp() {
   markers = addMarkers(map, schoolData, onMarkerClick);
   
   // Set up dropdown filters
-  populateNeighborhoodDropdown(hoodsCollection);
+  //populateNeighborhoodDropdown(hoodsCollection);
   populateSchoolYearDropdown(schoolData);
   populateGradeDropdown(schoolData);
   setupFilterEventListeners(map, markers, hoodsCollection);
@@ -57,7 +62,14 @@ async function initApp() {
   
   // Initialize about popup
   initializePopup();
+
 }
 
+// Function to initialize the second map
+async function initializeSecondMap() {
+//补全代码
+  
+}
 // Start the application when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', initApp);
+

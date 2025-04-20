@@ -17,21 +17,3 @@ export function initializeMap(elementId, center = [38.9072, -77.0369], zoom = 12
     return map;
   }
   
-  // Add neighborhood data to the map
-  export async function addNeighborhoods(map, url, style) {
-    const response = await fetch(url);
-    const collection = await response.json();
-    
-    const layer = L.geoJSON(collection, { style }).addTo(map);
-    
-    // Add tooltip to neighborhoods
-    layer.bindTooltip(layer => {
-      const hood = layer.feature;
-      const name = hood.properties['NAME'];
-      return `${name}`;
-    });
-    
-    map.fitBounds(layer.getBounds());
-    
-    return { layer, collection };
-  }

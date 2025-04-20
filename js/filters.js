@@ -1,20 +1,21 @@
+import { createEnrollmentChart } from './chart.js';
 // Functions for dropdown filters and selections
 
-// Populate neighborhood dropdown
-export function populateNeighborhoodDropdown(hoodsCollection) {
-    const neighborhoodSelect = document.getElementById('ward-select');
-    hoodsCollection.features.forEach(feature => {
-      const option = document.createElement('option');
-      option.value = feature.properties.NAME;
-      option.text = feature.properties.NAME;
-      neighborhoodSelect.add(option);
-    });
-  }
+// // Populate neighborhood dropdown
+// export function populateNeighborhoodDropdown(hoodsCollection) {
+//     const neighborhoodSelect = document.getElementById('ward-select');
+//     hoodsCollection.features.forEach(feature => {
+//       const option = document.createElement('option');
+//       option.value = feature.properties.NAME;
+//       option.text = feature.properties.NAME;
+//       neighborhoodSelect.add(option);
+//     });
+//   }
   
   // Populate school year dropdown
   export function populateSchoolYearDropdown(data) {
     const schoolYearSelect = document.getElementById('school-year-select');
-    const schoolYears = [...new Set(data.features.map(f => f.properties.School_yea))];
+    const schoolYears = [...new Set(data.features.map(f => f.properties.school_year_pred))];
     
     schoolYears.forEach(type => {
       const option = document.createElement('option');
@@ -27,7 +28,7 @@ export function populateNeighborhoodDropdown(hoodsCollection) {
   // Populate grade dropdown
   export function populateGradeDropdown(data) {
     const gradeTypeSelect = document.getElementById('grade-select');
-    const gradeTypes = [...new Set(data.features.map(f => f.properties.School_gra))];
+    const gradeTypes = [...new Set(data.features.map(f => f.properties.grade_level))];
     
     gradeTypes.forEach(type => {
       const option = document.createElement('option');
@@ -37,52 +38,94 @@ export function populateNeighborhoodDropdown(hoodsCollection) {
     });
   }
   
+  let lastClickedFeature = null;
   // Set up filter event listeners
   export function setupFilterEventListeners(map, markers, hoodsCollection) {
-    // Ward/neighborhood selection
-    document.getElementById('ward-select').addEventListener('change', function() {
-      applyFilters(map, markers, hoodsCollection);
+    // School sector selection
+    document.querySelectorAll('input[name="sector"]').forEach(checkbox => {
+      checkbox.addEventListener('change', function () {
+        applyFilters(map, markers, hoodsCollection);
+      });
     });
-  
+
     // School year selection
     document.getElementById('school-year-select').addEventListener('change', function() {
       applyFilters(map, markers, hoodsCollection);
+      if (lastClickedFeature) {
+        createEnrollmentChart(lastClickedFeature, markers[0].__data); // or pass schoolData if available globally
+      }
     });
-  
+    
+    // Ward checkbox change
+    document.querySelectorAll('input[name="ward"]').forEach(checkbox => {
+      checkbox.addEventListener('change', function () {
+        applyFilters(map, markers, hoodsCollection);
+      });
+    });
+
+
     // Grade selection
     document.getElementById('grade-select').addEventListener('change', function() {
       applyFilters(map, markers, hoodsCollection);
+    });
+  
+    // 修改onMarkerClick的调用方式
+    markers.forEach(marker => {
+      marker.on('click', function () {
+        const feature = marker.feature;
+        lastClickedFeature = feature;
+        createEnrollmentChart(feature, schoolData); // Make sure schoolData is accessible
+      });
     });
   }
   
   // Apply all filters and update map display
   function applyFilters(map, markers, hoodsCollection) {
-    const selectedNeighborhood = document.getElementById('ward-select').value;
+
     const selectedSchoolYear = document.getElementById('school-year-select').value;
     const selectedGradeType = document.getElementById('grade-select').value;
-  
+    const selectedWards = Array.from(document.querySelectorAll('input[name="ward"]:checked'))
+      .map(cb => cb.value);  
+    const selectedSectors = Array.from(document.querySelectorAll('input[name="sector"]:checked'))
+    .map(cb => cb.value);
+
+    let totalEnrollment = 0;
+
     // Show/hide markers based on selected filters
     markers.forEach(marker => {
-      const matchesNeighborhood = selectedNeighborhood === '' || (marker.neighborhood === selectedNeighborhood);
+      const matchesNeighborhood = selectedWards.length === 0 || selectedWards.includes(marker.neighborhood);
       const matchesSchoolYear = selectedSchoolYear === '' || (marker.schoolYear === selectedSchoolYear);
       const matchesGradeType = selectedGradeType === '' || (marker.grade === selectedGradeType);
-  
-      if (matchesNeighborhood && matchesSchoolYear && matchesGradeType) {
+      const matchesSector = selectedSectors.length === 0 || selectedSectors.includes(marker.schoolSector);
+      
+      if (matchesNeighborhood && matchesSchoolYear && matchesGradeType && matchesSector) {
         marker.addTo(map);
+
+        // 加上这个 marker 的人数
+      const pred = Number(marker.pred); // 确保是数字
+      if (!isNaN(pred)) {
+        totalEnrollment += pred;
+      }
+
       } else {
         map.removeLayer(marker);
       }
     });
+
+    // 更新 enrollment 显示
+    const enrollmentElement = document.getElementById('ward-total-pred');
+    enrollmentElement.textContent = totalEnrollment.toLocaleString(); // 加上千分位
+
   
     // Zoom to selected neighborhood if applicable
-    if (selectedNeighborhood) {
-      const selectedNeighborhoodFeature = hoodsCollection.features.find(
-        feature => feature.properties.NAME === selectedNeighborhood
+    if (selectedWards) {
+      const selectedWardsFeature = hoodsCollection.features.find(
+        feature => feature.properties.NAME === selectedWards
       );
   
-      if (selectedNeighborhoodFeature) {
-        const lon = selectedNeighborhoodFeature.properties.lon;
-        const lat = selectedNeighborhoodFeature.properties.lat;
+      if (selectedWardsFeature) {
+        const lon = selectedWardsFeature.properties.lon;
+        const lat = selectedWardsFeature.properties.lat;
         const targetLatLng = [lat, lon];
         const targetZoom = 12;
         

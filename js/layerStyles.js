@@ -17,7 +17,7 @@ export const neighborhoodStyle = {
   
   // Create a marker style based on school properties
   export function getSchoolMarkerStyle(feature, defaultColor = "#007cbf") {
-    const sectorType = feature.properties.School_sec;
+    const sectorType = feature.properties.school_sector;
     const color = schoolSecColors[sectorType] || defaultColor;
     
     return {

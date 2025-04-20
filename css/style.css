@@ -11,7 +11,7 @@ body {
 /* 标题容器 */
 #title-container {
     flex-shrink: 0; /* 确保标题容器高度固定 */
-    background-color:#91A3B0;
+    background-color:rgb(145, 163, 176);
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
@@ -49,14 +49,17 @@ body {
 #school-sector-container {
     display:block;
     flex-direction: column; /* 垂直排列单选框 */
+    margin-bottom: 20px
 }
 
 
-#drop-down-box-container {
+#drop-down-box-container{
     display: flex;
     flex-direction: column; /* 使下拉菜单纵向排列 */
     gap: 10px; /* 设置下拉菜单之间的间距 */
+    margin-bottom: 20px;
 }
+
 
 .controls {
     display: flex;
@@ -126,14 +129,6 @@ select {
     height: 100%; /* 必须确保地图高度占满父级 */
 }
 
-
-
-#map-controls {
-    position: absolute;
-    top: 10px;
-    right: 50px;
-    z-index: 10; /* 确保按钮显示在地图之上 */
-  }
   
 #layer-toggle-select {
     background-color: white;
@@ -258,7 +253,7 @@ select {
 }
 
 #chart-container {
-    height: 300px; /* 固定高度，确保不会无限延伸 */
+    height: 200px; /* 固定高度，确保不会无限延伸 */
     width: 100%;   /* 宽度保持 100% */
     margin-top: 20px;
     position: relative; /* 防止嵌套问题 */
@@ -283,7 +278,7 @@ select {
 .legend {
     position: absolute;
     bottom: 20px;
-    right: 25%;
+    right: 5%;
     background-color: rgba(249, 249, 249, 0.7);
     padding: 10px;
     border-radius: 5px;

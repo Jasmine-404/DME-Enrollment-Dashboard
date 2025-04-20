@@ -1,0 +1,49 @@
+---
+title: "Untitled"
+author: "Jingmiao Fei"
+date: "2025-04-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(sf)
+library(dplyr)
+
+setwd("D:/MUSA/Capstone/DCampus APP/data")
+
+# 读取 ward 面数据
+wards <- st_read("Wards_from_2022/Wards_from_2022.shp")
+
+# 读取 GeoJSON 点数据
+points <- st_read("glm_draft_output_origin.geojson")
+
+# 将 wards 投影到 points 的 CRS（而不是反过来！）
+wards_proj <- st_transform(wards, st_crs(points))
+
+# 空间连接（不会改变 points 的 CRS）
+joined <- st_join(points, wards_proj %>% select(NAME), left = TRUE, join = st_within)
+
+# 把新的 NAME 列改名为你想要的属性名
+joined <- joined %>% rename(Ward = NAME)
+
+joined <- joined %>%
+  mutate(
+    school_year_pred = case_when(
+      school_year == "SY18-19" ~ "SY19-20",
+      school_year == "SY19-20" ~ "SY20-21",
+      school_year == "SY20-21" ~ "SY21-22",
+      school_year == "SY21-22" ~ "SY22-23",
+      school_year == "SY22-23" ~ "SY23-24",
+      TRUE ~ NA_character_  # 其他情况设为 NA，可按需改
+    )
+  )
+
+
+# 导出为新的 GeoJSON 文件（带有 Ward 列）
+st_write(joined, "glm_draft_output.geojson", driver = "GeoJSON", overwrite = 'TRUE')
+
+```
