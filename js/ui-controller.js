@@ -14,9 +14,7 @@ function initializeUI() {
   mapPanel.style.display = 'block'; // 默认显示地图
   legendPanel.style.display = 'block'; // 默认显示图例
 
-  predictionPanel.style.display = 'none'; // 默认隐藏表单
-  aggregatePanel.style.display = 'none'; // 默认隐藏表单
-  mapPanel2.style.display = 'none'; // 默认隐藏表单
+  predictionPanel.style.display = 'block'; // 默认隐藏表单
 
   // 设置“Data Analysis”按钮为激活状态
   mapButton.classList.add('active');
@@ -29,9 +27,7 @@ mapButton.addEventListener('click', () => {
   mapPanel.style.display = 'block'; // 默认显示地图
   legendPanel.style.display = 'block'; // 默认显示图例
 
-  predictionPanel.style.display = 'none'; // 隐藏表单
-  aggregatePanel.style.display = 'none'; // 默认隐藏表单
-  mapPanel2.style.display = 'none'; // 默认隐藏表单
+  predictionPanel.style.display = 'block'; // 隐藏表单
 
   // 可选：添加按钮激活状态样式
   mapButton.classList.add('active');
@@ -46,7 +42,6 @@ predictionButton.addEventListener('click', () => {
 
   mapPanel.style.display = 'block'; // 默认显示地图
   predictionPanel.style.display = 'block'; // 显示表单
-  aggregatePanel.style.display = 'block'; // 默认隐藏表单
 
     // 当显示第二个页面时，触发地图重新初始化事件
     window.dispatchEvent(new CustomEvent('initializeMap2'));

@@ -47,3 +47,20 @@ joined <- joined %>%
 st_write(joined, "glm_draft_output.geojson", driver = "GeoJSON", overwrite = 'TRUE')
 
 ```
+```{r}
+setwd("D:/MUSA/Capstone")
+model <- readRDS("apr18_glmnet_5yrs_best_model.rds")
+head(model)
+```
+
+```{r}
+coef_matrix <- coef(model, s = "lambda.min")
+
+# 查看非零系数对应的变量名
+nonzero_indices <- which(coef_matrix != 0)
+feature_names <- rownames(coef_matrix)[nonzero_indices]
+
+# 去掉截距（"(Intercept)"）
+feature_names <- feature_names[feature_names != "(Intercept)"]
+print(feature_names)
+```

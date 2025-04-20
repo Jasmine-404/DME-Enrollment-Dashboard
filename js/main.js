@@ -67,7 +67,6 @@ async function initApp() {
 
 // Function to initialize the second map
 async function initializeSecondMap() {
-//补全代码
   
 }
 // Start the application when the DOM is fully loaded
