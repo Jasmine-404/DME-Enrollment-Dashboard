@@ -303,3 +303,74 @@ select {
     border-radius: 50%;
     margin-right: 5px;
 }
+
+#pred-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 2rem;
+  }
+  
+  #report-form {
+    flex: 1 1 300px;
+    max-width: 500px;
+  }
+  
+  #report-form h2 {
+    margin-bottom: 1rem;
+    color: #2c3e50;
+  }
+  
+  #user-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  #submit-pred {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background-color: #5D7580;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  #submit-pred:hover {
+    background-color: #4a5f6b;
+  }
+  
+  #pred-enrollment-container {
+    flex: 1 1 200px;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items:center;
+    padding-left: 2rem;
+    margin-top: -685px;  /* 往上挪 */
+  }
+  
+  #pred-enrollment-container strong {
+    font-size: 1.25rem;
+    color: #34495e;
+  }
+  
+  #pred-enrollment {
+    font-size: 3rem;
+    color: #5D7580;
+    margin-top: 1rem;
+  }
+  
