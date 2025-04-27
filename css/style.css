@@ -28,13 +28,13 @@ body {
 }
 
 #content {
-    flex: 1; 
+    flex: 1;
     display: flex;
-    height: calc(100vh - 50px); 
+    height: calc(100vh - 50px);
 }
 
 #filter-panel {
-    flex: 2; 
+    flex: 1.5;
     background-color: #f9f9f9;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -43,36 +43,39 @@ body {
 
 #school-sector-container {
     display:block;
-    flex-direction: column; 
+    flex-direction: column;
+    margin-bottom: 20px
 }
 
 
-#drop-down-box-container {
+#drop-down-box-container{
     display: flex;
-    flex-direction: column; 
-    gap: 10px; 
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
 }
+
 
 .controls {
     display: flex;
-    flex-direction: column; 
-    gap: 15px; 
+    flex-direction: column;
+    gap: 15px;
 }
 
 label {
-    font-weight: bold; 
+    font-weight: bold;
 }
 
 select {
-    padding: 5px; 
-    border: 1px solid #ccc; 
-    border-radius: 4px; 
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 #search-school-name-container {
     display: flex;
-    flex-direction: column; 
-    gap: 10px; 
+    flex-direction: column;
+    gap: 10px;
 }
 
 .suggestions-list {
@@ -96,8 +99,10 @@ select {
     background-color: #f0f0f0;
 }
 
+
+/* 信息面板样式 */
 #info-panel {
-    flex: 3; 
+    flex: 2;
     background-color: #f9f9f9;
     padding: 20px;
     box-shadow: 5px 0 2px rgba(0, 0, 0, 0.1);
@@ -106,49 +111,20 @@ select {
 
 #info-box {
     position:relative;
-    padding: 10px; 
-    background-color: rgba(255, 255, 255, 0.8); 
-    border-radius: 5px; 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 
 #map {
-    flex: 5; 
+    flex: 6.5;
     position: relative;
-    height: 100%; 
+    height: 100%;
 }
 
-#map-controls {
-    position: absolute;
-    top: 10px;
-    right: 50px;
-    z-index: 10; 
-}
-
-.legend {
-    position: absolute;
-    bottom: 20px;
-    right: 25%;
-    background-color: rgba(249, 249, 249, 0.7);
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    display: flex;
-    flex-direction: column;
-    z-index: 999;
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-}
-
-path.leaflet-interactive:focus { outline: none; }
-
+  
 #layer-toggle-select {
     background-color: white;
     border: 1px solid #ccc;
@@ -162,6 +138,7 @@ path.leaflet-interactive:focus { outline: none; }
     background-color: #f0f0f0;
   }
   
+
 #title-container h1 {
     margin: 0;
     font-size: 1.8rem;
@@ -174,7 +151,7 @@ path.leaflet-interactive:focus { outline: none; }
 
 #button-container button {
     padding: 10px 20px;
-    background-color: hsl(198, 16%, 52%);
+    background-color: #718D99;
     color: white;
     border: none;
     border-radius: 5px;
@@ -182,13 +159,12 @@ path.leaflet-interactive:focus { outline: none; }
 }
 
 #button-container button:hover {
-    background-color: #a6bfd1; 
-    transform: scale(1.05); 
-}
+    background-color: #a6bfd1;
+    transform: scale(1.05);}
 
 #button-container button:active {
-    background-color: #5D7580; 
-    transform: scale(0.95); 
+    background-color: #5D7580;
+    transform: scale(0.95);
 }
 
 .popup {
@@ -202,7 +178,7 @@ path.leaflet-interactive:focus { outline: none; }
     justify-content: center;
     align-items: center;
     
-    
+    /* Hide by default with these properties */
     display: none;
     visibility: hidden;
     opacity: 0;
@@ -268,30 +244,32 @@ path.leaflet-interactive:focus { outline: none; }
 }
 
 #chart-container {
-    height: 300px; 
-    width: 100%;   
+    height: 200px;
+    width: 100%;
     margin-top: 20px;
-    position: relative; 
+    position: relative;
   }
   
 #bar-chart {
     width: 100%; 
-    height: 100%; 
+    height: 100%;
   }
   
+
 #chart-description {
-    margin-top: 10px; 
-    text-align: left; 
-    font-size: 14px; 
-    color: #555; 
+    margin-top: 10px;
+    text-align: left;
+    font-size: 14px;
+    color: #555;
     font-style: italic;
-    font-family: Arial, sans-serif; 
+    font-family: Arial, sans-serif;
   }
 
-/* .legend {
+
+.legend {
     position: absolute;
     bottom: 20px;
-    right: 25%;
+    right: 5%;
     background-color: rgba(249, 249, 249, 0.7);
     padding: 10px;
     border-radius: 5px;
@@ -300,7 +278,7 @@ path.leaflet-interactive:focus { outline: none; }
     font-size: 12px;
     display: flex;
     flex-direction: column;
-    z-index: 999; 
+    z-index: 999;
 
 }
 
@@ -308,7 +286,7 @@ path.leaflet-interactive:focus { outline: none; }
     display: flex;
     align-items: center;
     margin-bottom: 5px;
-} */
+}
 
 .color-box {
     width: 10px;
@@ -316,3 +294,73 @@ path.leaflet-interactive:focus { outline: none; }
     border-radius: 50%;
     margin-right: 5px;
 }
+
+#pred-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 2rem;
+  }
+  
+  #report-form {
+    flex: 1 1 300px;
+    max-width: 500px;
+  }
+  
+  #report-form h2 {
+    margin-bottom: 1rem;
+    color: #2c3e50;
+  }
+  
+  #user-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  #submit-pred {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background-color: #5D7580;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  #submit-pred:hover {
+    background-color: #4a5f6b;
+  }
+  
+  #pred-enrollment-container {
+    flex: 1 1 200px;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items:center;
+    padding-left: 2rem;
+    margin-top: -685px;
+  }
+  
+  #pred-enrollment-container strong {
+    font-size: 1.25rem;
+    color: #34495e;
+  }
+  
+  #pred-enrollment {
+    font-size: 3rem;
+    color: #5D7580;
+    margin-top: 1rem;
+  }

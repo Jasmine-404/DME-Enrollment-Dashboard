@@ -12,7 +12,7 @@ export function setupSchoolSearch(map, schoolData, markers, onMarkerClick) {
     if (searchText !== '') {
       // Filter schools based on input
       const matchedSchools = schoolData.features.filter(feature => {
-        const schoolName = feature.properties.School_nam.toLowerCase();
+        const schoolName = feature.properties.school_name.toLowerCase();
         return schoolName.includes(searchText);
       });
 
@@ -37,10 +37,10 @@ function displaySuggestions(suggestions, searchInput, suggestionsList, map, mark
 
   suggestions.forEach(school => {
     const suggestionItem = document.createElement('li');
-    suggestionItem.textContent = school.properties.School_nam;
+    suggestionItem.textContent = school.properties.school_name;
     
     suggestionItem.addEventListener('click', () => {
-      searchInput.value = school.properties.School_nam;
+      searchInput.value = school.properties.school_name;
       suggestionsList.innerHTML = '';
       handleSchoolSearch(searchInput, map, schoolData, markers, suggestionsList, onMarkerClick);
     });
@@ -64,7 +64,7 @@ function handleSchoolSearch(searchInput, map, schoolData, markers, suggestionsLi
 
     // Find matching schools
     const matchedSchools = schoolData.features.filter(feature => {
-      const schoolName = feature.properties.School_nam.toLowerCase();
+      const schoolName = feature.properties.school_name.toLowerCase();
       return schoolName === searchText;
     });
 
@@ -80,12 +80,12 @@ function handleSchoolSearch(searchInput, map, schoolData, markers, suggestionsLi
         ).addTo(map);
         
         // Add properties for filtering
-        newMarker.neighborhood = feature.properties.Ward__2022;
-        newMarker.schoolYear = feature.properties.School_yea;
-        newMarker.grade = feature.properties.School_gra;
+        newMarker.neighborhood = feature.properties.Ward;
+        newMarker.schoolYear = feature.properties.school_year;
+        newMarker.grade = feature.properties.grade_level;
         
         // Add tooltip
-        newMarker.bindTooltip(`Name: ${feature.properties.School_nam}`, {
+        newMarker.bindTooltip(`Name: ${feature.properties.school_name}`, {
           permanent: false,
           direction: 'top',
           className: 'custom-tooltip'

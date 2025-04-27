@@ -3,8 +3,7 @@ import { initializeMap, addNeighborhoods } from './mapConfig.js';
 import { neighborhoodStyle } from './layerStyles.js';
 import { loadSchoolData, addMarkers } from './dataLoaders.js';
 import { createEnrollmentChart } from './chart.js';
-import { 
-  populateNeighborhoodDropdown, 
+import {
   populateSchoolYearDropdown, 
   populateGradeDropdown,
   setupFilterEventListeners 
@@ -14,10 +13,14 @@ import { initializePopup } from './popup.js';
 
 // Global variables
 let map;
+let map2;
 let markers = [];
+let markers2 = [];
 let hoodsLayer;
+let hoodsLayer2;
 let hoodsCollection;
 let schoolData;
+let map2Initialized = false
 
 // Initialize the application
 async function initApp() {
@@ -47,7 +50,7 @@ async function initApp() {
   markers = addMarkers(map, schoolData, onMarkerClick);
   
   // Set up dropdown filters
-  populateNeighborhoodDropdown(hoodsCollection);
+  //populateNeighborhoodDropdown(hoodsCollection);
   populateSchoolYearDropdown(schoolData);
   populateGradeDropdown(schoolData);
   setupFilterEventListeners(map, markers, hoodsCollection);
@@ -57,7 +60,12 @@ async function initApp() {
   
   // Initialize about popup
   initializePopup();
+
 }
 
+// Function to initialize the second map
+async function initializeSecondMap() {
+  
+}
 // Start the application when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', initApp);

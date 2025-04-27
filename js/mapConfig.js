@@ -1,5 +1,5 @@
 // Map initialization and configuration
-export function initializeMap(elementId, center = [38.9072, -77.0369], zoom = 15) {
+export function initializeMap(elementId, center = [38.9072, -77.0369], zoom = 16) {
     const mapEl = document.querySelector(elementId);
     const map = L.map(mapEl).setView(center, zoom);
   

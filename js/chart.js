@@ -1,9 +1,9 @@
 // Create or update the bar chart for school enrollment data
 export function createEnrollmentChart(feature, schoolData) {
     // Get enrollment data for the clicked school
-    const schoolName = feature.properties.School_nam;
+    const schoolName = feature.properties.school_name;
     const schoolGrades = schoolData.features.filter(school => 
-      school.properties.School_nam === schoolName
+      school.properties.school_name === schoolName
     );
   
     // Prepare data for the chart
@@ -11,8 +11,8 @@ export function createEnrollmentChart(feature, schoolData) {
     const enrollmentData = [];
     
     schoolGrades.forEach(school => {
-      const grade = school.properties.School_gra;
-      const enrollment = school.properties.Enrollment || 0;
+      const grade = school.properties.grade_level;
+      const enrollment = school.properties.enrollment || 0;
       
       if (!gradeLabels.includes(grade)) {
         gradeLabels.push(grade);
@@ -36,7 +36,7 @@ export function createEnrollmentChart(feature, schoolData) {
       data: {
         labels: gradeLabels,
         datasets: [{
-          label: 'Number of Enrollment',
+          label: 'Enrollment',
           data: enrollmentData,
           backgroundColor: 'skyblue',
           borderColor: 'gray',
