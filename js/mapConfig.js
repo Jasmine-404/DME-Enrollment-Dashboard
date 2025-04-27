@@ -1,7 +1,9 @@
 // Map initialization and configuration
-export function initializeMap(elementId, center = [38.9072, -77.0369], zoom = 16) {
+export function initializeMap(elementId, center = [38.8951127902493, -77.00714860751873], zoom = 11.5) {
     const mapEl = document.querySelector(elementId);
-    const map = L.map(mapEl).setView(center, zoom);
+    const map = L.map(mapEl, {
+      zoomSnap: 0.5 // Adjust zoom snap to 0.5 so that it isn't so zoomed out
+    });
   
     // Add Mapbox basemap
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -11,10 +13,10 @@ export function initializeMap(elementId, center = [38.9072, -77.0369], zoom = 16
       tileSize: 512,
       zoomOffset: -1,
       detectRetina: true,
-      accessToken: 'pk.eyJ1IjoiamFzbWluZTQwNCIsImEiOiJjbTFmdXE0NWEzY2diMm1wem4xcGs3bWFrIn0.w-nHq5x4vpU3o2NEQ8frTQ'
+      accessToken: 'pk.eyJ1Ijoic29sYW5vYSIsImEiOiJjbTE3eXNwNGYwaXRtMmxvZW1peDI1bHpwIn0.0MSBeAcaFnfVYOf9bG0DpQ'
     }).addTo(map);
   
-    return map;
+    return map.setView(center, zoom);
   }
 
     // Add neighborhood data to the map
@@ -46,37 +48,7 @@ export function initializeMap(elementId, center = [38.9072, -77.0369], zoom = 16
       return `${name}`;
     });
 
-    map.fitBounds(layer.getBounds());
+    // map.fitBounds(layer.getBounds());
     
     return { layer, collection };
   }
-  
-  // // Add neighborhood data to the map
-  // export async function addNeighborhoods(map, url, style) {
-  //   const response = await fetch(url);
-  //   const collection = await response.json();
-    
-  //   const data = L.geoJSON(collection, { style, onEachFeature:wardsHover,
-
-  //   }).addTo(map);
-    
-  //   function wardsHover(feature, layer) {
-  //   // Add tooltip to neighborhoods
-  //     layer.bindTooltip(`${feature.properties.NAME}`);
-
-  //     layer.on('mouseover', function() {
-  //       layer.setStyle({
-  //           fillOpacity: 0.8
-  //       });
-  //     });
-  //     layer.on('mouseout', function() {
-  //       layer.setStyle({
-  //           fillOpacity: 0.55
-  //         });
-  //       });
-  //     };
-    
-  //   map.fitBounds(layer.getBounds());
-
-  //   return { collection, data };
-  // }

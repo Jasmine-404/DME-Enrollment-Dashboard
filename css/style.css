@@ -34,7 +34,7 @@ body {
 }
 
 #filter-panel {
-    flex: 1.5;
+    flex: 2.5;
     background-color: #f9f9f9;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -100,7 +100,6 @@ select {
 }
 
 
-/* 信息面板样式 */
 #info-panel {
     flex: 2;
     background-color: #f9f9f9;
@@ -119,7 +118,7 @@ select {
 
 
 #map {
-    flex: 6.5;
+    flex: 5;
     position: relative;
     height: 100%;
 }
