@@ -34,7 +34,7 @@ export function createEnrollmentChart(feature, schoolData) {
     data: {
       labels: gradeLabels,
       datasets: [{
-        label: `Enrollment (${selectedSchoolYear})`,
+        label: `Enrollment ${selectedSchoolYear}`,
         data: enrollmentData,
         backgroundColor: 'rgba(135, 206, 250, 0.5)',
         borderColor: 'rgba(135, 206, 250, 1)',

@@ -33,7 +33,7 @@ async function initApp() {
   hoodsCollection = neighborhoods.collection;
   
   // Load school data
-  const schools = await loadSchoolData(map, 'data/fitted1yr_26april.geojson');
+  const schools = await loadSchoolData(map, 'data/fitted1yr_26april_ordered.geojson');
   schoolData = schools.data;
   
   // Set up click handler for markers
