@@ -17,8 +17,8 @@
   <div id="title-container">
     <h1>DME Enrollment Dashboard</h1>
     <div id="button-container">
-      <button id="data-analysis-btn">Map</button>
-      <button id="report-observation-btn">Prediction</button>
+      <button id="map-btn">Map</button>
+      <button id="prediction-btn">Prediction</button>
       <button id="about-btn">About</button>
 
     </div>
@@ -39,39 +39,48 @@
    <div id="filter-panel">
     <h2>Filter</h2>
     <div id="school-sector-container">
-        <label for="sector-selector">School sector<br></label>
-        <input type="radio" name="sector" value="DCPS"> DCPS<br>
-        <input type="radio" name="sector" value="Public Charter"> Public Charter<br>
+      <label for="sector-selector">School sector<br></label>
+      <input type="checkbox" name="sector" value="DCPS"> DCPS<br>
+      <input type="checkbox" name="sector" value="Public charter"> Public Charter<br>
     </div>
+    
 
     <!--dropdown box-->
     <div id="drop-down-box-container">
         <div class="controls">
-            <label for="ward-selector"><br>Ward</label>
-            <select id="ward-select">
-            <option value="">Select Ward</option>
-            </select>
-
+            
             <label for="school-year-selector">Select School Year</label>
             <select id="school-year-select">
             <option value="">Select School Year</option>
             </select>
             
+            <div id="ward-select">
+              <label for="sector-selector">School sector<br></label>
+              <input type="checkbox" name="ward" value="Ward 1"> Ward 1<br>
+              <input type="checkbox" name="ward" value="Ward 2"> Ward 2<br>
+              <input type="checkbox" name="ward" value="Ward 3"> Ward 3<br>
+              <input type="checkbox" name="ward" value="Ward 4"> Ward 4<br>
+              <input type="checkbox" name="ward" value="Ward 5"> Ward 5<br>
+              <input type="checkbox" name="ward" value="Ward 6"> Ward 6<br>
+              <input type="checkbox" name="ward" value="Ward 7"> Ward 7<br>
+              <input type="checkbox" name="ward" value="Ward 8"> Ward 8<br>
+            </div>
+            
             <label for="grade-selector">Select Grade</label>
             <select id="grade-select">
             <option value="">Select Grade</option>
             </select>
-        </div>
-        
+        </div>    
     </div>
     
     <!--search school name-->
     <div id="search-school-name-container">
-        <label for="school-search">Search School Name</label>
-        <input type="text" id="school-search" placeholder="Enter school name">
-        <ul id="school-suggestions" class="suggestions-list"></ul>
+      <label for="school-search">Search School Name</label>
+      <input type="text" id="school-search" placeholder="Enter school name">
+      <ul id="school-suggestions" class="suggestions-list"></ul>
     </div>
     
+ 
     
    </div>
 
@@ -79,14 +88,17 @@
     <!-- Map container -->
 
     <div id="map">
-          <!--
-        <div id="map-controls">
-        <select id="layer-toggle-select">
-            <option value="points">Point Map</option>
-            <option value="heatmap">Heat Map</option>
-        </select>
-        </div>
-            -->
+    <!-- Legend container -->
+    <div id="legend" class="legend">
+      <div class="legend-item">
+          <div class="color-box" style="background-color: red;"></div>
+          <span>Public Charter School</span>
+      </div>
+      <div class="legend-item">
+          <div class="color-box" style="background-color: skyblue;"></div>
+          <span>DCPS School</span>
+      </div>
+    </div>
     </div>
 
 
@@ -101,23 +113,66 @@
         <div id="chart-container">
          <canvas id="bar-chart"></canvas>
         </div>
+
+        <div id="aggregate-enrollment">
+          <strong>Total Enrollment Number in Selected Wards/DCPS Boundaries<br></strong> 
+          <span id="ward-total-pred" style="font-size: 3rem; color: #5D7580;">0</span>
+        </div>
     </div>
   </div>
+
+   
+  <div id="pred-panel">
+   <!-- user report-->
+   <div id="report-form">
+    <h2>Make your prediction</h2>
+    <form id="user-form">
+
+        <label for="school-search">Search School Name</label>
+        <input type="text" id="school-search-user" placeholder="Enter school name">
+        <ul id="school-suggestions-user" class="suggestions-list"></ul>
+
+      <label for="school-year-selector-pred"><br>Select School Year</label>
+      <select id="school-year-select-pred">
+      <option value="">Select School Year</option>
+      </select>
+
+      <label for="grade-selector-pred"><br>Select Grade</label>
+      <select id="grade-select-pred">
+      <option value="">Select Grade</option>
+      </select>
+
+
+      <label for="number of construction permits"><br>Number of Construction Permits:</label>
+      <input type="number" id="number" min="0" required>
+
+      <label for="school capacity"><br>School Capacity:</label>
+      <input type="number" id="number" min="0" required>
+
+      <label for="var3"><br>Var3:</label>
+      <input type="number" id="number" min="0" required>
+
+
+      <br><button type="submit" id="submit-pred">Predict</button>
+    </form>
+  </div>
+
+    <div id="pred-enrollment-container">
+      <strong>Predicted Enrollment Number<br></strong> 
+      <span id="pred-enrollment" style="font-size: 3rem; color: #5D7580;">0</span>
+    </div>
+
+
+    </div>
+    
+  </div>
+
   
-  <!-- Legend container -->
-  <div id="legend" class="legend">
-    <div class="legend-item">
-        <div class="color-box" style="background-color: red;"></div>
-        <span>Public Charter</span>
-    </div>
-    <div class="legend-item">
-        <div class="color-box" style="background-color: skyblue;"></div>
-        <span>DCPS</span>
-    </div>
-  </div>
+  
 
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script type="module" src="./js/ui-controller.js"></script>
   <script type="module" src="./js/main.js"></script>  
 </body>
 </html>

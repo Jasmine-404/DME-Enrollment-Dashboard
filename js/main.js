@@ -30,14 +30,14 @@ async function initApp() {
   hoodsCollection = neighborhoods.collection;
   
   // Load school data
-  const schools = await loadSchoolData(map, 'data/glm_draft_output.geojson');
+  const schools = await loadSchoolData(map, 'data/fitted1yr_26april.geojson');
   schoolData = schools.data;
   
   // Set up click handler for markers
   function onMarkerClick(feature, data) {
     // Show school info
     const infoBox = document.getElementById('info-box');
-    infoBox.innerHTML = `Name: ${feature.properties.school_name}<br>Address: ${feature.properties.Facility_a}<br>School Sector: ${feature.properties.school_sector}<br>Ward: ${feature.properties.Ward__2022}`;
+    infoBox.innerHTML = `Name: ${feature.properties.school_name}<br>School Sector: ${feature.properties.school_sector}<br>Ward: ${feature.properties.ward}`;
     
     // Create enrollment chart
     createEnrollmentChart(feature, data);

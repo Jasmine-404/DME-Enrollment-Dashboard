@@ -14,31 +14,48 @@ export async function loadSchoolData(map, url) {
   return { layer, data };
 }
 
+  // Add neighborhood data to the map
+  export async function addNeighborhoods(map, url, style) {
+    const response = await fetch(url);
+    const collection = await response.json();
+    
+    const layer = L.geoJSON(collection, { style }).addTo(map);
+    
+    // Add tooltip to neighborhoods
+    layer.bindTooltip(layer => {
+      const hood = layer.feature;
+      const name = hood.properties['NAME'];
+      return `${name}`;
+    });
+    
+    map.fitBounds(layer.getBounds());
+    
+    return { layer, collection };
+  }
 // Add markers to the map with appropriate properties and event handlers
 export function addMarkers(map, data, onMarkerClick) {
   const markers = [];
   
   data.features.forEach(feature => {
-    // Get the neighborhood this school belongs to
-    // const neighborhood = feature.properties.Ward__2022;
-    
+        
     const marker = L.circleMarker(
       [feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 
       getSchoolMarkerStyle(feature)
     ).addTo(map);
 
     // Store properties for filtering
-    //marker.neighborhood = neighborhood;
-    // marker.schoolYear = feature.properties.school_year;
-    // marker.grade = feature.properties.grade_level;
-    
+    marker.neighborhood = feature.properties.ward;
+    marker.schoolYear = feature.properties.school_year;
+    marker.grade = feature.properties.grade_level;
+    marker.schoolSector = feature.properties.school_sector;
+    marker.pred = feature.properties[".pred"];
     // Add tooltip
     marker.bindTooltip(`${feature.properties.school_name}`, {
       permanent: false,
       direction: 'top',
       className: 'custom-tooltip'
     });
-
+    
     // adjust styling for hover effect
     marker.on('mouseover', function() {
       marker.setStyle({
