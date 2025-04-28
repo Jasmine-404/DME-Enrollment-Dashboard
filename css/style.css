@@ -4,12 +4,12 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh; 
-    font-family: Arial, sans-serif;
+    font-family: verdana, sans-serif;
 }
 
 #title-container {
     flex-shrink: 0; 
-    background-color:#6b080b;
+    background-color:#270143;
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
@@ -34,7 +34,7 @@ body {
 }
 
 #filter-panel {
-    flex: 2.5;
+    flex: 1.5;
     background-color: #f9f9f9;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -111,14 +111,14 @@ select {
 #info-box {
     position:relative;
     padding: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(247, 245, 249, 0.8);
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 
 #map {
-    flex: 5;
+    flex: 3;
     position: relative;
     height: 100%;
 }
@@ -150,7 +150,7 @@ select {
 
 #button-container button {
     padding: 10px 20px;
-    background-color: #718D99;
+    background-color: #37284e;
     color: white;
     border: none;
     border-radius: 5px;

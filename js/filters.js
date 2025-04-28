@@ -60,7 +60,7 @@ import { createEnrollmentChart } from './chart.js';
     document.querySelectorAll('input[name="ward"]').forEach(checkbox => {
       checkbox.addEventListener('change', function () {
         applyFilters(map, markers, hoodsCollection);
-      });
+        });
     });
 
     // Grade selection
@@ -95,6 +95,7 @@ import { createEnrollmentChart } from './chart.js';
       const matchesSchoolYear = selectedSchoolYear === '' || (marker.schoolYear === selectedSchoolYear);
       const matchesGradeType = selectedGradeType === '' || (marker.grade === selectedGradeType);
       const matchesSector = selectedSectors.length === 0 || selectedSectors.includes(marker.schoolSector);
+      console.log(marker.neighborhood, marker.schoolYear, marker.grade, marker.schoolSector)
       
       if (matchesNeighborhood && matchesSchoolYear && matchesGradeType && matchesSector) {
         marker.addTo(map);
@@ -117,6 +118,8 @@ import { createEnrollmentChart } from './chart.js';
       const selectedWardsFeature = hoodsCollection.features.find(
         feature => feature.properties.NAME === selectedWards
       );
+      console.log(selectedWards);
+      console.log(selectedWardsFeature);
   
       if (selectedWardsFeature) {
         const lon = selectedWardsFeature.properties.lon;

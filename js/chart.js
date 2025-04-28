@@ -13,7 +13,7 @@ export function createEnrollmentChart(feature, schoolData) {
 
   schoolGrades.forEach(school => {
     const grade = school.properties.grade_level;
-    const enrollment = school.properties["pred_enrollment"] || 0;
+    const enrollment = Math.round(school.properties["pred_enrollment"] || 0);
 
     const index = gradeLabels.indexOf(grade);
     if (index === -1) {
@@ -36,8 +36,8 @@ export function createEnrollmentChart(feature, schoolData) {
       datasets: [{
         label: `Enrollment ${selectedSchoolYear}`,
         data: enrollmentData,
-        backgroundColor: 'rgba(135, 206, 250, 0.5)',
-        borderColor: 'rgba(135, 206, 250, 1)',
+        backgroundColor: '#270143',
+        borderColor: '#270143',
         borderWidth: 1
       }]
     },

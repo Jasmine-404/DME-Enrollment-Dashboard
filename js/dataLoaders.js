@@ -49,6 +49,8 @@ export function addMarkers(map, data, onMarkerClick) {
     marker.grade = feature.properties.grade_level;
     marker.schoolSector = feature.properties.school_sector;
     marker.pred = feature.properties.pred_enrollment;
+    marker.boundary = feature.properties.dcps_boundary;
+    
     // Add tooltip
     marker.bindTooltip(`${feature.properties.school_name}`, {
       permanent: false,
@@ -71,8 +73,9 @@ export function addMarkers(map, data, onMarkerClick) {
     });
     
     // Add click event
-    marker.on('click', function() {
+    marker.on('click', function(e) {
       onMarkerClick(feature, data);
+      map.setView(e.latlng, 15);
     });
     
     markers.push(marker);

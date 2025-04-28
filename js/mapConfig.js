@@ -9,7 +9,7 @@ export function initializeMap(elementId, center = [38.8951127902493, -77.0071486
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
       attribution: '&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> contributors',
       maxZoom: 18,
-      id: 'mapbox/streets-v11',
+      id: 'mapbox/light-v11',
       tileSize: 512,
       zoomOffset: -1,
       detectRetina: true,
@@ -37,7 +37,11 @@ export function initializeMap(elementId, center = [38.8951127902493, -77.0071486
             weight: 0.5
           });
         });
-      }
+        layer.on('click', function() {
+          map.fitBounds(layer.getBounds());
+        });
+      };
+
 
     const layer = L.geoJSON(collection, { style, onEachFeature:wardsHover }).addTo(map);
     
@@ -47,25 +51,6 @@ export function initializeMap(elementId, center = [38.8951127902493, -77.0071486
       const name = hood.properties['NAME'];
       return `${name}`;
     });
-
-    layer.on('click', function(e) {
-      var checkbox = document.querySelector(`input[name="ward"][value="${e.layer.feature.properties.NAME}"]`);
-      if (checkbox) {
-        checkbox.checked = !checkbox.checked;
-        applyFilters(map, markers, hoodsCollection);
-        layer.setStyle({
-          fillOpacity: 0.5,
-          weight: 6
-        })
-      } else {
-        layer.setStyle({
-          fillOpacity: 0.5,
-          weight: 6
-        })
-      }
-    });
-
-    // map.fitBounds(layer.getBounds());
     
     return { layer, collection };
   }

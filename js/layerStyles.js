@@ -2,7 +2,7 @@
 
 // Neighborhood layer styling
 export const neighborhoodStyle = {
-    fillColor: 'white',
+    fillColor: '#F8F8FF',
     weight: 0.5,
     opacity: 1,
     color: '#000000',
@@ -11,8 +11,8 @@ export const neighborhoodStyle = {
   
   // School sector colors for markers
   export const schoolSecColors = {
-    "Public charter": "red",
-    "DCPS": "skyblue"
+    "Public charter": "darkorange",
+    "DCPS": "mediumpurple"
   };
   
   // Create a marker style based on school properties
