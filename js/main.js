@@ -33,7 +33,7 @@ async function initApp() {
   hoodsCollection = neighborhoods.collection;
   
   // Load school data
-  const schools = await loadSchoolData(map, 'data/fitted1yr_26april_ordered.geojson');
+  const schools = await loadSchoolData(map, 'data/fitted3yr.geojson');
   schoolData = schools.data;
   
   // Set up click handler for markers
@@ -54,6 +54,7 @@ async function initApp() {
   populateSchoolYearDropdown(schoolData);
   populateGradeDropdown(schoolData);
   setupFilterEventListeners(map, markers, hoodsCollection);
+
   
   // Set up school search
   setupSchoolSearch(map, schoolData, markers, onMarkerClick);

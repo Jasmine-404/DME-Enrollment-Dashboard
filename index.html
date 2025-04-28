@@ -27,8 +27,12 @@
     <!-- About popup -->
     <div id="about-popup" class="popup">
         <div class="popup-content">
-          <h2>About DCampus</h2>
-          <p>DCampus is a project that provides interactive mapping and dashboard visualizations for matriculation prediction in Washington DC.</p>
+          <h2>DME Enrollment Dashboard</h2>
+          <p>This dashboard predicts enrollment for each grade in each facility in the DC Public School System.<br></br>
+          These predictions can be adjusted based on user-provided counts of construction permits issued in the school boundary, used as a proxy variable indicating the level of development around the school, and a change in capacity that impacts enrollment.<br></br>
+          The predictions are made through regularized regression, validated on a year-by-year basis.<br></br>
+          The DME Enrollment Dashboard was created as part of the semester-long practicum project for the Urban Spatial Analytics and City Planning programs at Penn's Weitzman School.<br></br>
+          Project created by Jingmiao Fei, Jia Yue Ong, Amy Solano, and Neve Zhang.</p>
           <button id="close-popup-btn">Got it</button>
         </div>
       </div>
@@ -55,7 +59,7 @@
             </select>
             
             <div id="ward-select">
-              <label for="sector-selector">School sector<br></label>
+              <label for="sector-selector">Ward<br></label>
               <input type="checkbox" name="ward" value="Ward 1"> Ward 1<br>
               <input type="checkbox" name="ward" value="Ward 2"> Ward 2<br>
               <input type="checkbox" name="ward" value="Ward 3"> Ward 3<br>
@@ -115,7 +119,7 @@
         </div>
 
         <div id="aggregate-enrollment">
-          <strong>Total Enrollment Number in Selected Wards/DCPS Boundaries<br></strong> 
+          <strong>Predicted Enrollment in Selected Wards/DCPS Boundaries<br></strong> 
           <span id="ward-total-pred" style="font-size: 3rem; color: #5D7580;">0</span>
         </div>
     </div>

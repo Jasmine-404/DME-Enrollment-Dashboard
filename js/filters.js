@@ -15,7 +15,7 @@ import { createEnrollmentChart } from './chart.js';
   // Populate school year dropdown
   export function populateSchoolYearDropdown(data) {
     const schoolYearSelect = document.getElementById('school-year-select');
-    const schoolYears = [...new Set(data.features.map(f => f.properties.school_year))];
+    const schoolYears = [...new Set(data.features.map(f => f.properties.pred_year))];
     
     schoolYears.forEach(type => {
       const option = document.createElement('option');
@@ -122,7 +122,7 @@ import { createEnrollmentChart } from './chart.js';
         const lon = selectedWardsFeature.properties.lon;
         const lat = selectedWardsFeature.properties.lat;
         const targetLatLng = [lat, lon];
-        const targetZoom = 12;
+        const targetZoom = 15;
         
         map.flyTo(targetLatLng, targetZoom, {
           duration: 1,

@@ -27,7 +27,7 @@ export function initializeMap(elementId, center = [38.8951127902493, -77.0071486
     function wardsHover(feature, layer) {
       layer.on('mouseover', function() {
         layer.setStyle({
-            fillOpacity: 0.9,
+            fillOpacity: 0.6,
             weight: 2
         });
       });
@@ -46,6 +46,23 @@ export function initializeMap(elementId, center = [38.8951127902493, -77.0071486
       const hood = layer.feature;
       const name = hood.properties['NAME'];
       return `${name}`;
+    });
+
+    layer.on('click', function(e) {
+      var checkbox = document.querySelector(`input[name="ward"][value="${e.layer.feature.properties.NAME}"]`);
+      if (checkbox) {
+        checkbox.checked = !checkbox.checked;
+        applyFilters(map, markers, hoodsCollection);
+        layer.setStyle({
+          fillOpacity: 0.5,
+          weight: 6
+        })
+      } else {
+        layer.setStyle({
+          fillOpacity: 0.5,
+          weight: 6
+        })
+      }
     });
 
     // map.fitBounds(layer.getBounds());

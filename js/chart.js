@@ -5,7 +5,7 @@ export function createEnrollmentChart(feature, schoolData) {
 
   const schoolGrades = schoolData.features.filter(school =>
     school.properties.school_name === schoolName &&
-    (selectedSchoolYear === '' || school.properties.school_year_pred === selectedSchoolYear)
+    (selectedSchoolYear === '' || school.properties.pred_year === selectedSchoolYear)
   );
 
   const gradeLabels = [];
@@ -13,7 +13,7 @@ export function createEnrollmentChart(feature, schoolData) {
 
   schoolGrades.forEach(school => {
     const grade = school.properties.grade_level;
-    const enrollment = school.properties[".pred"] || 0;
+    const enrollment = school.properties["pred_enrollment"] || 0;
 
     const index = gradeLabels.indexOf(grade);
     if (index === -1) {

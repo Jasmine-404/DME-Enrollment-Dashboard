@@ -45,10 +45,10 @@ export function addMarkers(map, data, onMarkerClick) {
 
     // Store properties for filtering
     marker.neighborhood = feature.properties.ward;
-    marker.schoolYear = feature.properties.school_year;
+    marker.schoolYear = feature.properties.pred_year;
     marker.grade = feature.properties.grade_level;
     marker.schoolSector = feature.properties.school_sector;
-    marker.pred = feature.properties[".pred"];
+    marker.pred = feature.properties.pred_enrollment;
     // Add tooltip
     marker.bindTooltip(`${feature.properties.school_name}`, {
       permanent: false,
