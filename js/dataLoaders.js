@@ -61,7 +61,7 @@ export function addMarkers(map, data, onMarkerClick) {
     // adjust styling for hover effect
     marker.on('mouseover', function() {
       marker.setStyle({
-          radius: 10,
+          radius: 12,
           color: 'black'
       });
     });
@@ -75,7 +75,7 @@ export function addMarkers(map, data, onMarkerClick) {
     // Add click event
     marker.on('click', function(e) {
       onMarkerClick(feature, data);
-      map.setView(e.latlng, 15);
+      map.setView(e.latlng, 13);
     });
     
     markers.push(marker);

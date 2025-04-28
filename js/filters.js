@@ -95,8 +95,7 @@ import { createEnrollmentChart } from './chart.js';
       const matchesSchoolYear = selectedSchoolYear === '' || (marker.schoolYear === selectedSchoolYear);
       const matchesGradeType = selectedGradeType === '' || (marker.grade === selectedGradeType);
       const matchesSector = selectedSectors.length === 0 || selectedSectors.includes(marker.schoolSector);
-      console.log(marker.neighborhood, marker.schoolYear, marker.grade, marker.schoolSector)
-      
+
       if (matchesNeighborhood && matchesSchoolYear && matchesGradeType && matchesSector) {
         marker.addTo(map);
 
@@ -114,23 +113,39 @@ import { createEnrollmentChart } from './chart.js';
     enrollmentElement.textContent = totalEnrollment.toLocaleString();
 
     // Zoom to selected neighborhood if applicable
+    let isZoomedIn = false; // Flag to track zoom state
+    let previousZoomState = { lat: null, lon: null }; // Store previous zoom state
+    
     if (selectedWards) {
       const selectedWardsFeature = hoodsCollection.features.find(
-        feature => feature.properties.NAME === selectedWards
+        feature => feature.properties['NAME'] === selectedWards[0] // Assuming you want to zoom to the first selected ward
       );
       console.log(selectedWards);
+      console.log(hoodsCollection.features);
       console.log(selectedWardsFeature);
-  
+    
       if (selectedWardsFeature) {
         const lon = selectedWardsFeature.properties.lon;
         const lat = selectedWardsFeature.properties.lat;
         const targetLatLng = [lat, lon];
-        const targetZoom = 15;
-        
-        map.flyTo(targetLatLng, targetZoom, {
-          duration: 1,
-          easeLinearity: 0.25
-        });
+        const targetZoom = 13;
+    
+        if (!isZoomedIn || previousZoomState.lat !== lat || previousZoomState.lon !== lon) {
+          // Zoom in
+          map.flyTo(targetLatLng, targetZoom, {
+            duration: 1,
+            easeLinearity: 0.25
+          });
+          isZoomedIn = true;
+          previousZoomState = { lat, lon }; // Update previous zoom state
+        } else {
+          // Zoom out
+          map.flyTo(map.getCenter(), 11.5, { // Default zoom level
+            duration: 1,
+            easeLinearity: 0.25
+          });
+          isZoomedIn = false;
+        }
       }
     }
   }

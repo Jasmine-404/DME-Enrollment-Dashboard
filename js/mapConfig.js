@@ -37,9 +37,28 @@ export function initializeMap(elementId, center = [38.8951127902493, -77.0071486
             weight: 0.5
           });
         });
-        layer.on('click', function() {
-          map.fitBounds(layer.getBounds());
-        });
+      let isZoomedIn = false; // Flag to track zoom state
+      let previousBounds = null; // Store the previous bounds
+
+      layer.on('click', function () {
+        const bounds = layer.getBounds(); // Get the bounds of the clicked layer
+
+        if (!isZoomedIn || !bounds.equals(previousBounds)) {
+          // Zoom in to the layer's bounds
+          map.fitBounds(bounds, {
+            padding: [20, 20], // Optional padding around the bounds
+            duration: 1, // Animation duration
+          });
+          isZoomedIn = true;
+          previousBounds = bounds; // Update the previous bounds
+        } else {
+          // Zoom out to the default view
+          map.setView([38.8951127902493, -77.00714860751873], 11.5, {
+            duration: 1, // Animation duration
+          });
+          isZoomedIn = false;
+        }
+      });
       };
 
 

@@ -263,6 +263,31 @@ select {
     font-style: italic;
     font-family: Arial, sans-serif;
   }
+  #additional-charts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  #chart-container-2, #chart-container-3 {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  #line-chart, #ward-bar-chart {
+    width: 100%;
+    height: 300px;
+  }
+  
+  #ward-summary {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 
 
 .legend {

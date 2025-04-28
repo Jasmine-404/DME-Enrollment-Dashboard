@@ -2,7 +2,12 @@
 import { initializeMap, addNeighborhoods } from './mapConfig.js';
 import { neighborhoodStyle } from './layerStyles.js';
 import { loadSchoolData, addMarkers } from './dataLoaders.js';
-import { createEnrollmentChart } from './chart.js';
+import { 
+  createEnrollmentChart,
+  createEnrollmentTrendChart,
+  createWardSummaryChart,
+  updateWardSummary
+} from './chart.js';
 import {
   populateSchoolYearDropdown, 
   populateGradeDropdown,
@@ -13,14 +18,10 @@ import { initializePopup } from './popup.js';
 
 // Global variables
 let map;
-let map2;
 let markers = [];
-let markers2 = [];
 let hoodsLayer;
-let hoodsLayer2;
 let hoodsCollection;
 let schoolData;
-let map2Initialized = false
 
 // Initialize the application
 async function initApp() {
@@ -29,8 +30,34 @@ async function initApp() {
   
   // Load neighborhood data
   const neighborhoods = await addNeighborhoods(map, 'data/DCwards.geojson', neighborhoodStyle);
-  hoodsLayer = neighborhoods.data;
+  hoodsLayer = neighborhoods.layer;
   hoodsCollection = neighborhoods.collection;
+
+  // Add click handler for wards
+  hoodsLayer.on('click', function (e) {
+    const clickedWardName = e.layer.feature.properties['NAME']; // Adjust property name as needed
+
+    // Find all matching checkboxes in the DOM
+    const wardCheckboxes = document.querySelectorAll(`input[name="ward"][value="${clickedWardName}"]`);
+
+    // Loop through all matching checkboxes and toggle their state
+    wardCheckboxes.forEach((checkbox) => {
+      checkbox.checked = !checkbox.checked;
+
+      // Optionally, trigger a change event if needed
+      const event = new Event('change');
+      checkbox.dispatchEvent(event);
+    });
+
+    // Update ward summary and chart
+    const wardData = schoolData.features.filter(school => school.properties.ward === clickedWardName);
+    const totalEnrollment = wardData.reduce((sum, school) => sum + Math.round(school.properties["pred_enrollment"] || 0), 0);
+
+    createWardSummaryChart(clickedWardName, wardData);
+    updateWardSummary(clickedWardName, totalEnrollment);
+
+    console.log(`Clicked ward: ${clickedWardName}`);
+  });
   
   // Load school data
   const schools = await loadSchoolData(map, 'data/fitted3yr.geojson');
@@ -44,29 +71,23 @@ async function initApp() {
     
     // Create enrollment chart
     createEnrollmentChart(feature, data);
+    createEnrollmentTrendChart(feature, data);
   }
   
   // Add markers to the map
   markers = addMarkers(map, schoolData, onMarkerClick);
   
   // Set up dropdown filters
-  //populateNeighborhoodDropdown(hoodsCollection);
   populateSchoolYearDropdown(schoolData);
   populateGradeDropdown(schoolData);
   setupFilterEventListeners(map, markers, hoodsCollection);
 
-  
   // Set up school search
   setupSchoolSearch(map, schoolData, markers, onMarkerClick);
   
   // Initialize about popup
   initializePopup();
-
 }
 
-// Function to initialize the second map
-async function initializeSecondMap() {
-  
-}
 // Start the application when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', initApp);
