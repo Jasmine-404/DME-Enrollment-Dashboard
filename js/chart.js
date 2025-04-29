@@ -1,5 +1,6 @@
 let charts = {};
 
+// color palette for charts
 const gradeColors = {
   "K": "#fed395", 
   "1": "#fea973",

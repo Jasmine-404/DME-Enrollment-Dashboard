@@ -112,7 +112,8 @@ import { createEnrollmentChart } from './chart.js';
     const enrollmentElement = document.getElementById('ward-total-pred');
     enrollmentElement.textContent = totalEnrollment.toLocaleString();
 
-    // Zoom to selected neighborhood if applicable
+    // Zoom to selected ward on click
+    // This glitches out a little bit when mutliple wards are selected but that's ok for now
     let isZoomedIn = false;
     let previousZoomState = { lat: null, lon: null };
     
@@ -148,6 +149,8 @@ import { createEnrollmentChart } from './chart.js';
   }
 
 // Populate filters based on map selection
+// THIS ALSO ISN'T REALLY THAT RELEVANT
+// ESPECIALLY WITH HOW SECNARIOS WILL PLAY OUT, BUT I WILL LEAVE IT HERE SO NOTHING BREAKS
 export function populateFiltersFromMapSelection(feature) {
   const sectorCheckboxes = document.querySelectorAll('input[name="sector"]');
   sectorCheckboxes.forEach(checkbox => {
@@ -169,7 +172,7 @@ export function populateFiltersFromMapSelection(feature) {
 
 // Disable dashboard elements initially
 function disableDashboard() {
-  document.getElementById('map').style.pointerEvents = 'none';
+  document.getElementById('map').style.pointerEvents = 'none'; // need to figure out why this doesn't disable hover and clicks
   document.getElementById('map').style.opacity = '0.5';
   document.querySelectorAll('.chart-container').forEach(chart => {
     chart.style.pointerEvents = 'none';
@@ -189,7 +192,6 @@ function enableDashboard() {
   document.getElementById('info-panel').style.opacity = '1';
 }
 
-// Call disableDashboard initially
 disableDashboard();
 
 // Listen for changes in the school year dropdown
