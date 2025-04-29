@@ -113,16 +113,13 @@ import { createEnrollmentChart } from './chart.js';
     enrollmentElement.textContent = totalEnrollment.toLocaleString();
 
     // Zoom to selected neighborhood if applicable
-    let isZoomedIn = false; // Flag to track zoom state
-    let previousZoomState = { lat: null, lon: null }; // Store previous zoom state
+    let isZoomedIn = false;
+    let previousZoomState = { lat: null, lon: null };
     
     if (selectedWards) {
       const selectedWardsFeature = hoodsCollection.features.find(
-        feature => feature.properties['NAME'] === selectedWards[0] // Assuming you want to zoom to the first selected ward
+        feature => feature.properties['NAME'] === selectedWards[0]
       );
-      console.log(selectedWards);
-      console.log(hoodsCollection.features);
-      console.log(selectedWardsFeature);
     
       if (selectedWardsFeature) {
         const lon = selectedWardsFeature.properties.lon;
@@ -137,10 +134,10 @@ import { createEnrollmentChart } from './chart.js';
             easeLinearity: 0.25
           });
           isZoomedIn = true;
-          previousZoomState = { lat, lon }; // Update previous zoom state
+          previousZoomState = { lat, lon };
         } else {
           // Zoom out
-          map.flyTo(map.getCenter(), 11.5, { // Default zoom level
+          map.flyTo(map.getCenter(), 11.5, {
             duration: 1,
             easeLinearity: 0.25
           });
@@ -149,17 +146,14 @@ import { createEnrollmentChart } from './chart.js';
       }
     }
   }
-// filters.js
 
 // Populate filters based on map selection
 export function populateFiltersFromMapSelection(feature) {
-  // Example: Populate the school sector checkboxes
   const sectorCheckboxes = document.querySelectorAll('input[name="sector"]');
   sectorCheckboxes.forEach(checkbox => {
     checkbox.checked = checkbox.value === feature.properties.school_sector;
   });
 
-  // Example: Populate the ward checkboxes
   const wardCheckboxes = document.querySelectorAll('input[name="ward"]');
   wardCheckboxes.forEach(checkbox => {
     checkbox.checked = checkbox.value === feature.properties.ward;
@@ -171,8 +165,6 @@ export function populateFiltersFromMapSelection(feature) {
   // Example: Populate the school year dropdown
   const schoolYearSelect = document.getElementById('school-year-select');
   schoolYearSelect.value = feature.properties.school_year || '';
-
-  console.log('Filters updated based on marker selection:', feature.properties);
 }
 
 // Disable dashboard elements initially

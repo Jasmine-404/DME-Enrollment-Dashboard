@@ -37,14 +37,13 @@ async function initApp() {
   hoodsLayer.on('click', function (e) {
     const clickedWardName = e.layer.feature.properties['NAME']; // Adjust property name as needed
 
-    // Find all matching checkboxes in the DOM
-    const wardCheckboxes = document.querySelectorAll(`input[name="ward"][value="${clickedWardName}"]`);
 
-    // Loop through all matching checkboxes and toggle their state
+    const wardCheckboxes = document.querySelectorAll(`input[name="ward"][value="${clickedWardName}"]`);
+    // Active checkbox similar to filters.js file
     wardCheckboxes.forEach((checkbox) => {
       checkbox.checked = !checkbox.checked;
 
-      // Optionally, trigger a change event if needed
+      // Connect layer to trigger change
       const event = new Event('change');
       checkbox.dispatchEvent(event);
     });
@@ -55,8 +54,6 @@ async function initApp() {
 
     createWardSummaryChart(clickedWardName, wardData);
     updateWardSummary(clickedWardName, totalEnrollment);
-
-    console.log(`Clicked ward: ${clickedWardName}`);
   });
   
   // Load school data
@@ -65,16 +62,12 @@ async function initApp() {
   
   // Set up click handler for markers
   function onMarkerClick(feature, data) {
-    console.log('Feature clicked:', feature);
-    console.log('School data:', schoolData);
-    // Show school info
     const infoBox = document.getElementById('info-box');
     infoBox.innerHTML = `Name: ${feature.properties.school_name}<br>
     School Sector: ${feature.properties.school_sector}
     <br>Ward: ${feature.properties.ward}<br>
     DCPS Boundary: ${feature.properties.dcps_boundary}`;
     
-    // Create enrollment chart
     createEnrollmentChart(feature, data);
     createEnrollmentTrendChart(feature, data);
   }
