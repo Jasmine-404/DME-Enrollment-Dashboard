@@ -76,6 +76,13 @@ export function addMarkers(map, data, onMarkerClick) {
     marker.on('click', function(e) {
       onMarkerClick(feature, data);
       map.setView(e.latlng, 13);
+      const clickedFeature = feature;
+      if (clickedFeature) {
+        // Populate filters based on the selected feature
+        populateFiltersFromMapSelection(clickedFeature);
+        // Optionally, apply the filters immediately
+        applyFilters();
+      }
     });
     
     markers.push(marker);

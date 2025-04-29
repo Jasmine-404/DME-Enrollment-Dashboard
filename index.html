@@ -38,32 +38,36 @@
   <div id="content">
     <!-- Filter panel -->
     <div id="filter-panel">
-      <h2>Filter</h2>
-      <div id="school-sector-container">
-        <label for="sector-selector">School sector<br></label>
-        <input type="checkbox" name="sector" value="DCPS"> DCPS<br>
-        <input type="checkbox" name="sector" value="Public charter"> Public Charter<br>
-      </div>
-
-      <!-- Dropdown box -->
+      <h2>Predictions</h2>
+      <p>To see enrollment predictions, please select a school year.</p>
       <div id="drop-down-box-container">
         <div class="controls">
           <label for="school-year-selector">Select School Year</label>
           <select id="school-year-select">
             <option value="">Select School Year</option>
           </select>
-
-          <div id="ward-select">
-            <label for="sector-selector">Ward<br></label>
+      <div id="school-sector-container">
+        <label for="sector-selector">School sector<br></label>
+        <input type="checkbox" name="sector" value="DCPS"> DCPS<br>
+        <input type="checkbox" name="sector" value="Public charter"> Public Charter<br>
+      </div>
+      <div id="ward-select">
+        <label for="sector-selector">Ward</label>
+        <div class="ward-container">
+          <div class="ward-column">
             <input type="checkbox" name="ward" value="Ward 1"> Ward 1<br>
             <input type="checkbox" name="ward" value="Ward 2"> Ward 2<br>
             <input type="checkbox" name="ward" value="Ward 3"> Ward 3<br>
             <input type="checkbox" name="ward" value="Ward 4"> Ward 4<br>
+          </div>
+          <div class="ward-column">
             <input type="checkbox" name="ward" value="Ward 5"> Ward 5<br>
             <input type="checkbox" name="ward" value="Ward 6"> Ward 6<br>
             <input type="checkbox" name="ward" value="Ward 7"> Ward 7<br>
             <input type="checkbox" name="ward" value="Ward 8"> Ward 8<br>
           </div>
+        </div>
+      </div>
 
           <label for="grade-selector">Select Grade</label>
           <select id="grade-select">
@@ -71,17 +75,35 @@
           </select>
         </div>
       </div>
-
       <!-- Search school name -->
       <div id="search-school-name-container">
         <label for="school-search">Search School Name</label>
         <input type="text" id="school-search" placeholder="Enter school name">
         <ul id="school-suggestions" class="suggestions-list"></ul>
       </div>
+      <!-- Button to reveal the predictive sliders -->
+      <button id="predict-scenario-btn">Predict With Scenario</button>
+
+      <!-- Scenario Panel -->
+      <div id="scenario-panel" style="display: none;">
+        <h3>Scenario Adjustments</h3>
+        <!-- Slider for Construction in Boundary -->
+        <div class="slider-container">
+          <label for="construction-slider">Construction in Boundary</label>
+          <input type="range" id="construction-slider" min="0" max="100" step="1" value="50">
+          <span id="construction-value">50</span>
+        </div>
+        <!-- Slider for Change in Enrollment -->
+        <div class="slider-container">
+          <label for="enrollment-slider">Change in Enrollment</label>
+          <input type="range" id="enrollment-slider" min="-50" max="50" step="1" value="0">
+          <span id="enrollment-value">0</span>
+        </div>
+</div>
     </div>
 
-    <!-- Map and charts container -->
-    <div id="map-and-charts">
+    <!-- Dashboard container -->
+    <div id="dashboard-container">
       <!-- Map container -->
       <div id="map">
         <!-- Legend container -->
@@ -97,17 +119,22 @@
         </div>
       </div>
 
-      <!-- Charts container -->
-      <div id="charts-container">
-        <div class="chart-container">
-          <canvas id="bar-chart"></canvas>
+      <!-- Info Panel -->
+      <div id="info-panel">
+        <h2>Information Panel</h2>
+        <div id="info-box">
+          <p id="info-text">Click the points to see detailed information.</p>
         </div>
-        <div class="chart-container">
-          <canvas id="line-chart"></canvas>
-        </div>
-        <div class="chart-container">
-          <canvas id="ward-bar-chart"></canvas>
-        </div>
+      </div>
+
+      <!-- Bar Chart -->
+      <div class="chart-container">
+        <canvas id="bar-chart"></canvas>
+      </div>
+
+      <!-- Line Chart -->
+      <div class="chart-container">
+        <canvas id="line-chart"></canvas>
       </div>
     </div>
   </div>

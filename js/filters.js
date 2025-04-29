@@ -149,3 +149,76 @@ import { createEnrollmentChart } from './chart.js';
       }
     }
   }
+// filters.js
+
+// Populate filters based on map selection
+export function populateFiltersFromMapSelection(feature) {
+  // Example: Populate the school sector checkboxes
+  const sectorCheckboxes = document.querySelectorAll('input[name="sector"]');
+  sectorCheckboxes.forEach(checkbox => {
+    checkbox.checked = checkbox.value === feature.properties.school_sector;
+  });
+
+  // Example: Populate the ward checkboxes
+  const wardCheckboxes = document.querySelectorAll('input[name="ward"]');
+  wardCheckboxes.forEach(checkbox => {
+    checkbox.checked = checkbox.value === feature.properties.ward;
+  });
+
+  const gradeSelect = document.getElementById('grade-select');
+  gradeSelect.value = feature.properties.grade_level || '';
+
+  // Example: Populate the school year dropdown
+  const schoolYearSelect = document.getElementById('school-year-select');
+  schoolYearSelect.value = feature.properties.school_year || '';
+
+  console.log('Filters updated based on marker selection:', feature.properties);
+}
+
+// Disable dashboard elements initially
+function disableDashboard() {
+  document.getElementById('map').style.pointerEvents = 'none'; // Disable map interactions
+  document.getElementById('map').style.opacity = '0.5'; // Dim the map
+  document.querySelectorAll('.chart-container').forEach(chart => {
+    chart.style.pointerEvents = 'none'; // Disable chart interactions
+    chart.style.opacity = '0.5'; // Dim the charts
+  });
+  document.getElementById('info-panel').style.opacity = '0.5'; // Dim the info panel
+}
+
+// Enable dashboard elements
+function enableDashboard() {
+  document.getElementById('map').style.pointerEvents = 'auto'; // Enable map interactions
+  document.getElementById('map').style.opacity = '1'; // Restore map opacity
+  document.querySelectorAll('.chart-container').forEach(chart => {
+    chart.style.pointerEvents = 'auto'; // Enable chart interactions
+    chart.style.opacity = '1'; // Restore chart opacity
+  });
+  document.getElementById('info-panel').style.opacity = '1'; // Restore info panel opacity
+}
+
+// Call disableDashboard initially
+disableDashboard();
+
+// Listen for changes in the school year dropdown
+document.getElementById('school-year-select').addEventListener('change', function () {
+  const selectedYear = this.value;
+
+  if (selectedYear) {
+    // If a valid school year is selected, enable the dashboard
+    enableDashboard();
+  } else {
+    // If no school year is selected, disable the dashboard
+    disableDashboard();
+    alert('Please select a school year to proceed.');
+  }
+});
+
+document.getElementById('map').addEventListener('click', function (e) {
+  const selectedYear = document.getElementById('school-year-select').value;
+
+  if (!selectedYear) {
+    alert('Please select a school year to proceed.');
+    e.preventDefault(); // Prevent the default interaction
+  }
+});

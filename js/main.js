@@ -65,9 +65,13 @@ async function initApp() {
   
   // Set up click handler for markers
   function onMarkerClick(feature, data) {
+    console.log('Feature clicked:', feature);
+    console.log('School data:', schoolData);
     // Show school info
     const infoBox = document.getElementById('info-box');
-    infoBox.innerHTML = `Name: ${feature.properties.school_name}<br>School Sector: ${feature.properties.school_sector}<br>Ward: ${feature.properties.ward}`;
+    infoBox.innerHTML = `Name: ${feature.properties.school_name}<br>
+    School Sector: ${feature.properties.school_sector}
+    <br>Ward: ${feature.properties.ward}`;
     
     // Create enrollment chart
     createEnrollmentChart(feature, data);
@@ -87,6 +91,21 @@ async function initApp() {
   
   // Initialize about popup
   initializePopup();
+
+  const predictScenarioBtn = document.getElementById('predict-scenario-btn');
+  const scenarioPanel = document.getElementById('scenario-panel');
+
+  // Add a click event listener to the button
+  predictScenarioBtn.addEventListener('click', function () {
+    // Toggle the visibility of the scenario panel
+    if (scenarioPanel.style.display === 'none') {
+      scenarioPanel.style.display = 'block'; // Show the panel
+      predictScenarioBtn.textContent = 'Hide Scenario Adjustments'; // Update button text
+    } else {
+      scenarioPanel.style.display = 'none'; // Hide the panel
+      predictScenarioBtn.textContent = 'Predict With Scenario'; // Reset button text
+    }
+  });
 }
 
 // Start the application when the DOM is fully loaded

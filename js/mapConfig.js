@@ -1,5 +1,5 @@
 // Map initialization and configuration
-export function initializeMap(elementId, center = [38.8951127902493, -77.00714860751873], zoom = 11.5) {
+export function initializeMap(elementId, center = [38.8951127902493, -77.00714860751873], zoom = 11) {
     const mapEl = document.querySelector(elementId);
     const map = L.map(mapEl, {
       zoomSnap: 0.5 // Adjust zoom snap to 0.5 so that it isn't so zoomed out
