@@ -85,7 +85,7 @@ function handleSchoolSearch(searchInput, map, schoolData, markers, suggestionsLi
         newMarker.grade = feature.properties.grade_level;
         
         // Add tooltip
-        newMarker.bindTooltip(`Name: ${feature.properties.school_name}`, {
+        newMarker.bindTooltip(`${feature.properties.school_name}`, {
           permanent: false,
           direction: 'top',
           className: 'custom-tooltip'
