@@ -177,24 +177,24 @@ export function populateFiltersFromMapSelection(feature) {
 
 // Disable dashboard elements initially
 function disableDashboard() {
-  document.getElementById('map').style.pointerEvents = 'none'; // Disable map interactions
-  document.getElementById('map').style.opacity = '0.5'; // Dim the map
+  document.getElementById('map').style.pointerEvents = 'none';
+  document.getElementById('map').style.opacity = '0.5';
   document.querySelectorAll('.chart-container').forEach(chart => {
-    chart.style.pointerEvents = 'none'; // Disable chart interactions
-    chart.style.opacity = '0.5'; // Dim the charts
+    chart.style.pointerEvents = 'none';
+    chart.style.opacity = '0.5';
   });
-  document.getElementById('info-panel').style.opacity = '0.5'; // Dim the info panel
+  document.getElementById('info-panel').style.opacity = '0.5';
 }
 
 // Enable dashboard elements
 function enableDashboard() {
-  document.getElementById('map').style.pointerEvents = 'auto'; // Enable map interactions
-  document.getElementById('map').style.opacity = '1'; // Restore map opacity
+  document.getElementById('map').style.pointerEvents = 'auto';
+  document.getElementById('map').style.opacity = '1';
   document.querySelectorAll('.chart-container').forEach(chart => {
-    chart.style.pointerEvents = 'auto'; // Enable chart interactions
-    chart.style.opacity = '1'; // Restore chart opacity
+    chart.style.pointerEvents = 'auto';
+    chart.style.opacity = '1';
   });
-  document.getElementById('info-panel').style.opacity = '1'; // Restore info panel opacity
+  document.getElementById('info-panel').style.opacity = '1';
 }
 
 // Call disableDashboard initially

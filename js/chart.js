@@ -1,5 +1,14 @@
 let charts = {};
 
+const gradeColors = {
+  "K": "#fed395", 
+  "1": "#fea973",
+  "2": "#e95462",
+  "3": "#a3307e",
+  "4": "#8E44AD",
+  "5": "#440154",
+};
+
 // Create a bar chart for enrollment by grade
 export function createEnrollmentChart(feature, schoolData) {
   const schoolName = feature.properties.school_name;
@@ -12,6 +21,7 @@ export function createEnrollmentChart(feature, schoolData) {
 
   const gradeLabels = [];
   const enrollmentData = [];
+  const backgroundColors = [];
 
   schoolGrades.forEach(school => {
     const grade = school.properties.grade_level;
@@ -21,6 +31,7 @@ export function createEnrollmentChart(feature, schoolData) {
     if (index === -1) {
       gradeLabels.push(grade);
       enrollmentData.push(enrollment);
+      backgroundColors.push(gradeColors[grade] || '#000000');
     } else {
       enrollmentData[index] += enrollment;
     }
@@ -36,10 +47,10 @@ export function createEnrollmentChart(feature, schoolData) {
     data: {
       labels: gradeLabels,
       datasets: [{
-        label: `Enrollment ${selectedSchoolYear}`,
+        label: `Predicted enrollment ${selectedSchoolYear}`,
         data: enrollmentData,
-        backgroundColor: '#270143',
-        borderColor: '#270143',
+        backgroundColor: backgroundColors,
+        borderColor: backgroundColors,
         borderWidth: 1
       }]
     },
@@ -47,7 +58,23 @@ export function createEnrollmentChart(feature, schoolData) {
       responsive: true,
       scales: {
         y: {
-          beginAtZero: true
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Enrollment'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Grade'
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top'
         }
       }
     }
@@ -58,52 +85,109 @@ export function createEnrollmentChart(feature, schoolData) {
 export function createEnrollmentTrendChart(feature, schoolData) {
   const schoolName = feature.properties.school_name;
 
+  // Filter data for the selected school
   const schoolTrends = schoolData.features.filter(school =>
     school.properties.school_name === schoolName
   );
 
-  const yearLabels = [];
-  const enrollmentData = [];
-
+  // Group data by grade
+  const gradeData = {};
   schoolTrends.forEach(school => {
+    const grade = school.properties.grade_level;
     const year = school.properties.pred_year;
     const enrollment = Math.round(school.properties["pred_enrollment"] || 0);
 
-    const index = yearLabels.indexOf(year);
-    if (index === -1) {
-      yearLabels.push(year);
-      enrollmentData.push(enrollment);
-    } else {
-      enrollmentData[index] += enrollment;
+    if (!gradeData[grade]) {
+      gradeData[grade] = { years: [], enrollments: [] };
     }
+
+    // Add year and enrollment data for the grade
+    gradeData[grade].years.push(year);
+    gradeData[grade].enrollments.push(enrollment);
   });
 
+  const sortedGrades = Object.keys(gradeData).sort((a, b) => {
+    if (a === "K") return -1; // "K" comes first
+    if (b === "K") return 1;
+    return a.localeCompare(b, undefined, { numeric: true }); // Sort numerically for other grades
+  });
+
+  const datasets = sortedGrades.map(grade => ({
+    label: `${grade}`,
+    data: gradeData[grade].enrollments,
+    backgroundColor: 'rgba(0, 0, 0, 0)',
+    borderColor: gradeColors[grade] || '#000000',
+    borderWidth: 2,
+    tension: 0.4
+  }));
+
+  const overlayPlugin = {
+    id: 'overlayPlugin',
+    beforeDraw(chart) {
+      const { ctx, chartArea, scales } = chart;
+      const xScale = scales.x;
+
+      const labels = xScale.getLabels();
+      const lastTwoYears = ["SY25-26", "SY26-27"];
+      const startIndex = labels.findIndex(label => label === lastTwoYears[0]);
+      const endIndex = labels.findIndex(label => label === lastTwoYears[1]);
+  
+      if (startIndex !== -1 && endIndex !== -1) {
+        const startX = xScale.getPixelForValue(labels[startIndex]);
+        const endX = xScale.getPixelForValue(labels[endIndex]);
+  
+        // Draw the overlay
+        ctx.save();
+        ctx.fillStyle = 'whitesmoke';
+        ctx.fillRect(startX, chartArea.top, endX - startX, chartArea.bottom - chartArea.top);
+        ctx.restore();
+      }
+    }
+  };
+
+  // Destroy the existing chart if it exists
   if (charts.enrollmentTrendChart) {
     charts.enrollmentTrendChart.destroy();
   }
 
+  // Create the chart
   const ctx = document.getElementById('line-chart').getContext('2d');
   charts.enrollmentTrendChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: yearLabels,
-      datasets: [{
-        label: 'Enrollment Trends',
-        data: enrollmentData,
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1
-      }]
+      labels: gradeData[sortedGrades[0]].years,
+      datasets: datasets
     },
     options: {
       responsive: true,
       scales: {
         y: {
-          beginAtZero: true
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Enrollment'
+          }
+        }
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: 'Enrollment Trends'
+        },
+        legend: {
+          display: true,
+          position: 'top',
+          labels: {
+            usePointStyle: true,
+            pointStyle: 'line',
+            boxWidth: 40,
+            boxHeight: 10
+          }
         }
       }
-    }
-  });
+    },
+    plugins: [overlayPlugin]
+    });
 }
 
 // Create a bar chart for ward summary

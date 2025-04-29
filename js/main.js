@@ -11,7 +11,7 @@ import {
 import {
   populateSchoolYearDropdown, 
   populateGradeDropdown,
-  setupFilterEventListeners 
+  setupFilterEventListeners
 } from './filters.js';
 import { setupSchoolSearch } from './search.js';
 import { initializePopup } from './popup.js';
@@ -71,7 +71,8 @@ async function initApp() {
     const infoBox = document.getElementById('info-box');
     infoBox.innerHTML = `Name: ${feature.properties.school_name}<br>
     School Sector: ${feature.properties.school_sector}
-    <br>Ward: ${feature.properties.ward}`;
+    <br>Ward: ${feature.properties.ward}<br>
+    DCPS Boundary: ${feature.properties.dcps_boundary}`;
     
     // Create enrollment chart
     createEnrollmentChart(feature, data);
