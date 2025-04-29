@@ -176,8 +176,20 @@ select {
     margin-bottom: 20px;
     text-align: center; 
   }
-  
+/*   
   .slider-container label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  } */
+  .slider-title {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* 让 label 和 slider 左对齐 */
+  }
+  
+  .slider-title label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
