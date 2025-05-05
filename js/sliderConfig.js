@@ -48,7 +48,9 @@ constructionSlider.addEventListener('input', function () {
 
 enrollmentSlider.addEventListener('input', function () {
   pct_change_capacity = capacityValues[+this.value];
-  enrollmentValue.textContent = pct_change_capacity;
+  // enrollmentValue.textContent = pct_change_capacity;
+  enrollmentValue.textContent = (pct_change_capacity * 100).toFixed(0) + '%';
+
   updateScenario();
 });
 
@@ -83,6 +85,7 @@ enrollmentSlider.addEventListener('input', function () {
 function updateScenario() {
   const selectedFeature = getLastClickedFeature();
   const selectedYear = document.getElementById('school-year-select').value;
+  const absoluteCapacityElement = document.getElementById('absolute-capacity');
 
   if (!selectedFeature || !schoolData) return;
 
@@ -95,6 +98,17 @@ function updateScenario() {
     school.properties.pct_change_capacity_5yrlater === pct_change_capacity
   );
 
+  if (filtered.length > 0) {
+    // 👇 新增：显示绝对 capacity
+    const absCap = filtered[0].properties.abs_change_capacity_5yrlater;
+    absoluteCapacityElement.textContent = absCap !== undefined ? absCap : '—';
+  
+    createEnrollmentChart(selectedFeature, schoolData);
+    createEnrollmentTrendChart(selectedFeature, schoolData);
+  } else {
+    absoluteCapacityElement.textContent = '—';
+  }
+  
   if (filtered.length > 0) {
     createEnrollmentChart(selectedFeature, schoolData);
     createEnrollmentTrendChart(selectedFeature, schoolData);
