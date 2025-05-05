@@ -72,8 +72,15 @@ async function initApp() {
   
   let capacityData = null;
 
+  // const capacityRes = await fetch('data/school_capacity_SY23-24.geojson');
+  // capacityData = await capacityRes.json();
   const capacityRes = await fetch('data/school_capacity_SY23-24.geojson');
-  capacityData = await capacityRes.json();
+  if (!capacityRes.ok) {
+    console.error('❌ Failed to load capacity data:', capacityRes.status);
+  } else {
+    capacityData = await capacityRes.json();
+  }
+
   
   
 function onMarkerClick(feature, data) {
