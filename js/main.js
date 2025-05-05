@@ -70,16 +70,34 @@ async function initApp() {
   const schools = await loadSchoolData(map, REMOTE_DATA_URL);
   schoolData = schools.data;
   
-    
+  let capacityData = null;
+
+  const capacityRes = await fetch('data/school_capacity_SY23-24.geojson');
+  capacityData = await capacityRes.json();
+  
   
 function onMarkerClick(feature, data) {
-  setLastClickedFeature(feature);  // ✅ 更新 lastClickedFeature
+  setLastClickedFeature(feature);  // 更新 lastClickedFeature
+  const schoolName = feature.properties.school_name;
+
+  // 默认文字
+  let capacityText = 'Not Available';
+
+  if (capacityData && capacityData.features) {
+    const match = capacityData.features.find(d => d.properties.school_name === schoolName);
+    if (match) {
+      capacityText = match.properties.facility_capacity;
+    }
+  }
 
   const infoBox = document.getElementById('info-box');
-  infoBox.innerHTML = `Name: ${feature.properties.school_name}<br>
-  School Sector: ${feature.properties.school_sector}
-  <br>Ward: ${feature.properties.ward}<br>
-  DCPS Boundary: ${feature.properties.dcps_boundary}`;
+  infoBox.innerHTML =
+  `<strong>School Name:</strong> ${feature.properties.school_name}<br>
+  <strong>School Sector:</strong> ${feature.properties.school_sector}<br>
+  <strong>Ward:</strong> ${feature.properties.ward}<br>
+  <strong>DCPS Boundary:</strong> ${feature.properties.dcps_boundary}<br>
+  <strong>School Capacity in SY23-24:</strong> ${capacityText}
+  `;
 
   createEnrollmentChart(feature, data);
   createEnrollmentTrendChart(feature, data);
