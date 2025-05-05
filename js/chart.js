@@ -1,3 +1,5 @@
+import { cumulative_permits, pct_change_capacity } from './sliderConfig.js';
+
 let charts = {};
 
 // color palette for charts
@@ -15,10 +17,14 @@ export function createEnrollmentChart(feature, schoolData) {
   const schoolName = feature.properties.school_name;
   const selectedSchoolYear = document.getElementById('school-year-select').value;
 
+
   const schoolGrades = schoolData.features.filter(school =>
     school.properties.school_name === schoolName &&
-    (selectedSchoolYear === '' || school.properties.pred_year === selectedSchoolYear)
+    (selectedSchoolYear === '' || school.properties.school_year === selectedSchoolYear) &&
+    school.properties.cumulative_permits5yr === cumulative_permits &&
+    school.properties.pct_change_capacity_5yrlater === pct_change_capacity
   );
+  
 
   const gradeLabels = [];
   const enrollmentData = [];
@@ -26,7 +32,7 @@ export function createEnrollmentChart(feature, schoolData) {
 
   schoolGrades.forEach(school => {
     const grade = school.properties.grade_level;
-    const enrollment = Math.round(school.properties["pred_enrollment"] || 0);
+    const enrollment = Math.round(school.properties["enrollment"] || 0);
 
     const index = gradeLabels.indexOf(grade);
     if (index === -1) {
@@ -80,6 +86,12 @@ export function createEnrollmentChart(feature, schoolData) {
       }
     }
   });
+
+  console.log("Drawing chart for:", schoolName, "year:", selectedSchoolYear);
+  console.log("Filtered records:", schoolGrades.length);
+  console.log("gradeLabels:", gradeLabels);
+  console.log("enrollmentData:", enrollmentData);
+
 }
 
 // Create a line chart for enrollment trends
@@ -87,16 +99,22 @@ export function createEnrollmentTrendChart(feature, schoolData) {
   const schoolName = feature.properties.school_name;
 
   // Filter data for the selected school
+  // const schoolTrends = schoolData.features.filter(school =>
+  //   school.properties.school_name === schoolName
+  // );
   const schoolTrends = schoolData.features.filter(school =>
-    school.properties.school_name === schoolName
+    school.properties.school_name === schoolName &&
+    school.properties.cumulative_permits5yr === cumulative_permits &&
+    school.properties.pct_change_capacity_5yrlater === pct_change_capacity
   );
+  
 
   // Group data by grade
   const gradeData = {};
   schoolTrends.forEach(school => {
     const grade = school.properties.grade_level;
-    const year = school.properties.pred_year;
-    const enrollment = Math.round(school.properties["pred_enrollment"] || 0);
+    const year = school.properties.school_year;
+    const enrollment = Math.round(school.properties["enrollment"] || 0);
 
     if (!gradeData[grade]) {
       gradeData[grade] = { years: [], enrollments: [] };
@@ -198,7 +216,7 @@ export function createWardSummaryChart(wardName, wardData) {
 
   wardData.forEach(school => {
     const grade = school.properties.grade_level;
-    const enrollment = Math.round(school.properties["pred_enrollment"] || 0);
+    const enrollment = Math.round(school.properties["enrollment"] || 0);
 
     const index = gradeLabels.indexOf(grade);
     if (index === -1) {

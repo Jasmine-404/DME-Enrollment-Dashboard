@@ -15,13 +15,19 @@ import {
 } from './filters.js';
 import { setupSchoolSearch } from './search.js';
 import { initializePopup } from './popup.js';
+import { setLastClickedFeature } from './filters.js';
+import { setupSchoolYearChartListener } from './filters.js';
+import './sliderConfig.js';
+
+
 
 // Global variables
+export let schoolData;  // ← 添加这个
 let map;
 let markers = [];
 let hoodsLayer;
 let hoodsCollection;
-let schoolData;
+//let schoolData;
 
 // Initialize the application
 async function initApp() {
@@ -50,28 +56,43 @@ async function initApp() {
 
     // Update ward summary and chart
     const wardData = schoolData.features.filter(school => school.properties.ward === clickedWardName);
-    const totalEnrollment = wardData.reduce((sum, school) => sum + Math.round(school.properties["pred_enrollment"] || 0), 0);
+    const totalEnrollment = wardData.reduce((sum, school) => sum + Math.round(school.properties["enrollment"] || 0), 0);
 
     createWardSummaryChart(clickedWardName, wardData);
     updateWardSummary(clickedWardName, totalEnrollment);
   });
   
   // Load school data
-  const schools = await loadSchoolData(map, 'data/fitted3yr.geojson');
+  const schools = await loadSchoolData(map, 'data/updated_app_data_May4.geojson');
   schoolData = schools.data;
   
   // Set up click handler for markers
-  function onMarkerClick(feature, data) {
-    const infoBox = document.getElementById('info-box');
-    infoBox.innerHTML = `Name: ${feature.properties.school_name}<br>
-    School Sector: ${feature.properties.school_sector}
-    <br>Ward: ${feature.properties.ward}<br>
-    DCPS Boundary: ${feature.properties.dcps_boundary}`;
+  // function onMarkerClick(feature, data) {
+  //   const infoBox = document.getElementById('info-box');
+  //   infoBox.innerHTML = `Name: ${feature.properties.school_name}<br>
+  //   School Sector: ${feature.properties.school_sector}
+  //   <br>Ward: ${feature.properties.ward}<br>
+  //   DCPS Boundary: ${feature.properties.dcps_boundary}`;
     
-    createEnrollmentChart(feature, data);
-    createEnrollmentTrendChart(feature, data);
-  }
+  //   createEnrollmentChart(feature, data);
+  //   createEnrollmentTrendChart(feature, data);
+  // }
   
+  
+function onMarkerClick(feature, data) {
+  setLastClickedFeature(feature);  // ✅ 更新 lastClickedFeature
+
+  const infoBox = document.getElementById('info-box');
+  infoBox.innerHTML = `Name: ${feature.properties.school_name}<br>
+  School Sector: ${feature.properties.school_sector}
+  <br>Ward: ${feature.properties.ward}<br>
+  DCPS Boundary: ${feature.properties.dcps_boundary}`;
+
+  createEnrollmentChart(feature, data);
+  createEnrollmentTrendChart(feature, data);
+}
+
+
   // Add markers to the map
   markers = addMarkers(map, schoolData, onMarkerClick);
   
@@ -85,6 +106,8 @@ async function initApp() {
   
   // Initialize about popup
   initializePopup();
+
+  setupSchoolYearChartListener();
 
   const predictScenarioBtn = document.getElementById('predict-scenario-btn');
   const scenarioPanel = document.getElementById('scenario-panel');

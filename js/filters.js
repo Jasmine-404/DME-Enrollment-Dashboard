@@ -1,4 +1,6 @@
 import { createEnrollmentChart } from './chart.js';
+import { schoolData } from './main.js';
+
 // Functions for dropdown filters and selections
 
 // // Populate neighborhood dropdown
@@ -12,10 +14,35 @@ import { createEnrollmentChart } from './chart.js';
 //     });
 //   }
   
+export let lastClickedFeature = null;
+
+export function setLastClickedFeature(feature) {
+  lastClickedFeature = feature;
+}
+
+export function getLastClickedFeature() {
+  return lastClickedFeature;
+}
+
+// ✅ 用于设置 school year change 的监听器
+export function setupSchoolYearChartListener() {
+  document.getElementById('school-year-select').addEventListener('change', function() {
+    console.log("School year changed!");
+
+    if (lastClickedFeature) {
+      console.log("Updating chart for:", lastClickedFeature.properties.school_name);
+      createEnrollmentChart(lastClickedFeature, schoolData);
+    } else {
+      console.log("No school selected yet.");
+    }
+  });
+}
+
+
   // Populate school year dropdown
   export function populateSchoolYearDropdown(data) {
     const schoolYearSelect = document.getElementById('school-year-select');
-    const schoolYears = [...new Set(data.features.map(f => f.properties.pred_year))];
+    const schoolYears = [...new Set(data.features.map(f => f.properties.school_year))];
     
     schoolYears.forEach(type => {
       const option = document.createElement('option');
@@ -38,7 +65,7 @@ import { createEnrollmentChart } from './chart.js';
     });
   }
   
-  let lastClickedFeature = null;
+  // let lastClickedFeature = null;
   // Set up filter event listeners
   export function setupFilterEventListeners(map, markers, hoodsCollection) {
     // School sector selection
@@ -50,9 +77,15 @@ import { createEnrollmentChart } from './chart.js';
 
     // School year selection
     document.getElementById('school-year-select').addEventListener('change', function() {
+
+      console.log("Dropdown changed!");
+      console.log("lastClickedFeature:", lastClickedFeature?.properties?.school_name);
+      console.log("selectedYear:", document.getElementById('school-year-select').value);
+      console.log("schoolData loaded:", schoolData?.features?.length);
+
       applyFilters(map, markers, hoodsCollection);
       if (lastClickedFeature) {
-        createEnrollmentChart(lastClickedFeature, markers[0].__data); // or pass schoolData if available globally
+        createEnrollmentChart(lastClickedFeature, schoolData); // or pass schoolData if available globally
       }
     });
     
@@ -78,7 +111,7 @@ import { createEnrollmentChart } from './chart.js';
   }
   
   // Apply all filters and update map display
-  function applyFilters(map, markers, hoodsCollection) {
+  export function applyFilters(map, markers, hoodsCollection) {
 
     const selectedSchoolYear = document.getElementById('school-year-select').value;
     const selectedGradeType = document.getElementById('grade-select').value;
