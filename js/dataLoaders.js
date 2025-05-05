@@ -38,7 +38,7 @@ export async function loadSchoolData(map, url) {
   export function addMarkers(map, data, onMarkerClick) {
     const markers = [];
   
-    // ✅ 新增：对数据去重，按 school_name + school_year + grade_level 保留第一条
+    // 新增：对数据去重，按 school_name + school_year + grade_level 保留第一条
     const seenKeys = new Set();
     const uniqueFeatures = [];
   
@@ -50,7 +50,7 @@ export async function loadSchoolData(map, url) {
       }
     });
   
-    // ✅ 使用 uniqueFeatures 而非原始 data
+    // 使用 uniqueFeatures 而非原始 data
     uniqueFeatures.forEach(feature => {
       const marker = L.circleMarker(
         [feature.geometry.coordinates[1], feature.geometry.coordinates[0]],

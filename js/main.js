@@ -63,21 +63,13 @@ async function initApp() {
   });
   
   // Load school data
-  const schools = await loadSchoolData(map, 'data/updated_app_data_May4.geojson');
+  // const schools = await loadSchoolData(map, 'data/updated_app_data_May4.geojson');
+  // schoolData = schools.data;
+  const REMOTE_DATA_URL = 'https://drive.google.com/uc?export=download&id=1dIUrj18mB0awZx2guZSIKQXj7-IXA1eE';
+
+  const schools = await loadSchoolData(map, REMOTE_DATA_URL);
   schoolData = schools.data;
-  
-  // Set up click handler for markers
-  // function onMarkerClick(feature, data) {
-  //   const infoBox = document.getElementById('info-box');
-  //   infoBox.innerHTML = `Name: ${feature.properties.school_name}<br>
-  //   School Sector: ${feature.properties.school_sector}
-  //   <br>Ward: ${feature.properties.ward}<br>
-  //   DCPS Boundary: ${feature.properties.dcps_boundary}`;
     
-  //   createEnrollmentChart(feature, data);
-  //   createEnrollmentTrendChart(feature, data);
-  // }
-  
   
 function onMarkerClick(feature, data) {
   setLastClickedFeature(feature);  // ✅ 更新 lastClickedFeature
