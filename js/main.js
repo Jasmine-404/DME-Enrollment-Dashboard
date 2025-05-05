@@ -75,7 +75,7 @@ async function initApp() {
   // const capacityRes = await fetch('data/school_capacity_SY23-24.geojson');
   // capacityData = await capacityRes.json();
   
-  const capacityRes = await fetch('  https://fzrc4leppkfrpfbh.public.blob.vercel-storage.com/school_capacity_SY23-24-7wHciot2PmA0qeoftx0UtZL5o9QLK8.geojson');
+  const capacityRes = await fetch('https://fzrc4leppkfrpfbh.public.blob.vercel-storage.com/school_capacity_SY23-24-7wHciot2PmA0qeoftx0UtZL5o9QLK8.geojson');
   capacityData = await capacityRes.json();
 
 function onMarkerClick(feature, data) {
