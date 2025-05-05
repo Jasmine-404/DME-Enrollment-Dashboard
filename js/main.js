@@ -65,10 +65,11 @@ async function initApp() {
   // Load school data
   // const schools = await loadSchoolData(map, 'data/updated_app_data_May4.geojson');
   // schoolData = schools.data;
-  const REMOTE_DATA_URL = 'https://drive.google.com/uc?export=download&id=1dIUrj18mB0awZx2guZSIKQXj7-IXA1eE';
+  const REMOTE_DATA_URL = 'https://fzrc4leppkfrpfbh.public.blob.vercel-storage.com/updated_app_data_May4-6E6f0sCkf0SySp7Ubxv465ScZPcpsy.geojson';
 
   const schools = await loadSchoolData(map, REMOTE_DATA_URL);
   schoolData = schools.data;
+  
     
   
 function onMarkerClick(feature, data) {
