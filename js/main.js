@@ -18,7 +18,7 @@ import { initializePopup } from './popup.js';
 import { setLastClickedFeature } from './filters.js';
 import { setupSchoolYearChartListener } from './filters.js';
 import './sliderConfig.js';
-
+import { initializeScenarioPopup } from './popup.js';
 
 
 // Global variables
@@ -119,6 +119,8 @@ function onMarkerClick(feature, data) {
   
   // Initialize about popup
   initializePopup();
+  initializeScenarioPopup();
+
 
   setupSchoolYearChartListener();
 

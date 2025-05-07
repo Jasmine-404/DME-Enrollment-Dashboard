@@ -85,6 +85,12 @@
 
       <!-- Scenario Panel -->
       <div id="scenario-panel" style="display: none;">
+
+          <!-- 🟡 问号图标按钮 -->
+        <button id="scenario-help-btn" >
+          <img src="data/question-icon.png" alt="Help" style="width: 20px; height: 20px;">
+        </button>
+        
         <h3>Scenario Adjustments</h3>
         <!-- Slider for Construction in Boundary -->
         <div class="slider-container">
@@ -106,7 +112,19 @@
           </div>
           
         </div>
-</div>
+        <!-- 弹出帮助框 -->
+        <div id="scenario-help-popup" class="popup">
+          <div class="popup-content">
+            <h2>Variable Explanation</h2>
+            <p>
+              Cumulative construction permits:<br>
+              Change in school capacity:
+            </p>
+            <button id="scenario-help-close-btn">Got it</button>
+          </div>
+        </div>
+
+    </div>
     </div>
 
     <!-- Dashboard container -->

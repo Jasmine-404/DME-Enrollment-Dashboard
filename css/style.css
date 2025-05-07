@@ -32,13 +32,13 @@ body {
     height: calc(100vh - 50px); /* Full height minus the title bar */
   }
 
-  #filter-panel {
-    width: 20%; /* Fixed width for the filter panel */
-    background-color: #f9f9f9;
-    padding: 10px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-  }
+#filter-panel {
+  width: 20%; /* Fixed width for the filter panel */
+  background-color: #f9f9f9;
+  padding: 10px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
 
 #school-sector-container {
     display:block;
@@ -313,8 +313,27 @@ input[type="range"]::-webkit-slider-runnable-track {
     line-height: 1.5;
     color: #333;
 }
-  
-#close-popup-btn {
+
+#scenario-help-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#scenario-help-btn img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain; /* 防止拉伸变形 */
+  display: block;      /* 移除 img 下方多余空隙 */
+}
+
+#close-popup-btn, #scenario-help-close-btn {
     display: block;
     margin: 20px auto 0;
     padding: 8px 16px;
@@ -326,12 +345,12 @@ input[type="range"]::-webkit-slider-runnable-track {
     font-size: 16px;
 }
 
-#close-popup-btn:hover {
+#close-popup-btn, #scenario-help-close-btn:hover {
     background-color: #a6bfd1;
     transform: scale(1.05);
 }
 
-#close-popup-btn:active {
+#close-popup-btn, #scenario-help-close-btn:active {
     background-color: #5D7580;
     transform: scale(0.95);
 }

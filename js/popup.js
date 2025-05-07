@@ -19,4 +19,28 @@ export function initializePopup() {
       aboutPopup.classList.remove('show');
     }
   });
+
+  aboutPopup.classList.add('show');
+
+}
+
+// Initialize the scenario help popup functionality
+export function initializeScenarioPopup() {
+  const helpBtn = document.getElementById('scenario-help-btn');
+  const helpPopup = document.getElementById('scenario-help-popup');
+  const helpCloseBtn = document.getElementById('scenario-help-close-btn');
+
+  helpBtn.addEventListener('click', () => {
+    helpPopup.classList.add('show');
+  });
+
+  helpCloseBtn.addEventListener('click', () => {
+    helpPopup.classList.remove('show');
+  });
+
+  helpPopup.addEventListener('click', (e) => {
+    if (e.target === helpPopup) {
+      helpPopup.classList.remove('show');
+    }
+  });
 }
