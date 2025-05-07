@@ -98,116 +98,107 @@ export function createEnrollmentChart(feature, schoolData) {
 export function createEnrollmentTrendChart(feature, schoolData) {
   const schoolName = feature.properties.school_name;
 
-  // Filter data for the selected school
-  // const schoolTrends = schoolData.features.filter(school =>
-  //   school.properties.school_name === schoolName
-  // );
-  const schoolTrends = schoolData.features.filter(school =>
+  const trendData = schoolData.features.filter(school =>
     school.properties.school_name === schoolName &&
     school.properties.cumulative_permits5yr === cumulative_permits &&
     school.properties.pct_change_capacity_5yrlater === pct_change_capacity
   );
-  
 
-  // Group data by grade
-  const gradeData = {};
-  schoolTrends.forEach(school => {
+  // 固定 school years 横轴顺序（如你项目范围）
+  const allYears = ["SY24-25", "SY25-26", "SY26-27", "SY27-28", "SY28-29", "SY29-30"];
+
+  // 构造：grade -> { year -> enrollment }
+  const gradeMap = {};
+
+  trendData.forEach(school => {
     const grade = school.properties.grade_level;
     const year = school.properties.school_year;
-    const enrollment = Math.round(school.properties["enrollment"] || 0);
+    const enrollment = Math.round(school.properties.enrollment || 0);
 
-    if (!gradeData[grade]) {
-      gradeData[grade] = { years: [], enrollments: [] };
+    if (!gradeMap[grade]) {
+      gradeMap[grade] = {};
     }
-
-    // Add year and enrollment data for the grade
-    gradeData[grade].years.push(year);
-    gradeData[grade].enrollments.push(enrollment);
+    gradeMap[grade][year] = (gradeMap[grade][year] || 0) + enrollment;
   });
 
-  const sortedGrades = Object.keys(gradeData).sort((a, b) => {
-    if (a === "K") return -1; // "K" comes first
+  // 排序 grade：K, 1, 2, ..., 5
+  const sortedGrades = Object.keys(gradeMap).sort((a, b) => {
+    if (a === "K") return -1;
     if (b === "K") return 1;
-    return a.localeCompare(b, undefined, { numeric: true }); // Sort numerically for other grades
+    return parseInt(a) - parseInt(b);
   });
 
-  const datasets = sortedGrades.map(grade => ({
-    label: `${grade}`,
-    data: gradeData[grade].enrollments,
-    backgroundColor: 'rgba(0, 0, 0, 0)',
-    borderColor: gradeColors[grade] || '#000000',
-    borderWidth: 2,
-    tension: 0.4
-  }));
+  // 构造 datasets：每个 grade 一条线，按年份对齐
+  const datasets = sortedGrades.map(grade => {
+    return {
+      label: grade,
+      data: allYears.map(year => gradeMap[grade][year] ?? null),
+      borderColor: gradeColors[grade] || '#000000',
+      borderWidth: 2,
+      tension: 0.3,
+      spanGaps: false,
+      fill: false
+    };
+  });
 
-  const overlayPlugin = {
-    id: 'overlayPlugin',
-    beforeDraw(chart) {
-      const { ctx, chartArea, scales } = chart;
-      const xScale = scales.x;
+  if (charts.enrollmentTrendChart) charts.enrollmentTrendChart.destroy();
 
-      const labels = xScale.getLabels();
-      const lastTwoYears = ["SY25-26", "SY26-27"];
-      const startIndex = labels.findIndex(label => label === lastTwoYears[0]);
-      const endIndex = labels.findIndex(label => label === lastTwoYears[1]);
-  
-      if (startIndex !== -1 && endIndex !== -1) {
-        const startX = xScale.getPixelForValue(labels[startIndex]);
-        const endX = xScale.getPixelForValue(labels[endIndex]);
-  
-        // Draw the overlay
-        ctx.save();
-        ctx.fillStyle = 'whitesmoke';
-        ctx.fillRect(startX, chartArea.top, endX - startX, chartArea.bottom - chartArea.top);
-        ctx.restore();
-      }
-    }
-  };
-
-  // Destroy the existing chart if it exists
-  if (charts.enrollmentTrendChart) {
-    charts.enrollmentTrendChart.destroy();
-  }
-
-  // Create the chart
   const ctx = document.getElementById('line-chart').getContext('2d');
+
+  // 计算数据最大最小值
+  const allValues = datasets.flatMap(d => d.data).filter(v => v !== null);
+  const minVal = Math.floor(Math.min(...allValues) * 0.95);
+  const maxVal = Math.ceil(Math.max(...allValues) * 1.05);
+
   charts.enrollmentTrendChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: gradeData[sortedGrades[0]].years,
+      labels: allYears,
       datasets: datasets
     },
     options: {
       responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: 'Enrollment'
-          }
-        }
-      },
       plugins: {
-        title: {
-          display: true,
-          text: 'Enrollment Trends'
-        },
         legend: {
           display: true,
           position: 'top',
           labels: {
             usePointStyle: true,
-            pointStyle: 'line',
-            boxWidth: 40,
-            boxHeight: 10
+            pointStyle: 'line'
+          }
+        }
+      },
+
+      scales: {
+        y: {
+          beginAtZero: false,
+          min: minVal,
+          max: maxVal,
+          title: {
+            display: true,
+            text: 'Enrollment'
+          }
+        },
+
+      // scales: {
+      //   y: {
+      //     beginAtZero: true,
+      //     title: {
+      //       display: true,
+      //       text: 'Enrollment'
+      //     }
+      //   },
+        x: {
+          title: {
+            display: true,
+            text: 'School Year'
           }
         }
       }
-    },
-    plugins: [overlayPlugin]
-    });
+    }
+  });
 }
+
 
 // Create a bar chart for ward summary
 export function createWardSummaryChart(wardName, wardData) {
