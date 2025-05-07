@@ -12,9 +12,23 @@ export function setupSchoolSearch(map, schoolData, markers, onMarkerClick) {
 
     if (searchText !== '') {
       // Filter schools based on input
-      const matchedSchools = schoolData.features.filter(feature => {
-        const schoolName = feature.properties.school_name.toLowerCase();
-        return schoolName.includes(searchText);
+      // const matchedSchools = schoolData.features.filter(feature => {
+      //   const schoolName = feature.properties.school_name.toLowerCase();
+      //   return schoolName.includes(searchText);
+      // });
+
+      const matchedSchools = [];
+      const seenNames = new Set();
+
+      schoolData.features.forEach(feature => {
+        const schoolName = feature.properties.school_name;
+        if (
+          schoolName.toLowerCase().includes(searchText) &&
+          !seenNames.has(schoolName)
+        ) {
+          seenNames.add(schoolName);
+          matchedSchools.push(feature);
+        }
       });
 
       // Display matching suggestions
