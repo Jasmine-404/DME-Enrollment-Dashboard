@@ -25,7 +25,7 @@
   <div id="about-popup" class="popup">
     <div class="popup-content">
       <h2>DME Enrollment Dashboard</h2>
-      <p>This dashboard predicts enrollment for each grade in each facility in the DC Public School System.<br>
+      <p>This dashboard predicts enrollment for each grade in each facility in the DC Public School System from SY24-25 to SY29-30.<br>
       These predictions can be adjusted based on user-provided counts of construction permits issued in the school boundary, used as a proxy variable indicating the level of development around the school, and a change in capacity that impacts enrollment.<br>
       The predictions are made through regularized regression, validated on a year-by-year basis.<br>
       The DME Enrollment Dashboard was created as part of the semester-long practicum project for the Urban Spatial Analytics and City Planning programs at Penn's Weitzman School.<br>
@@ -117,8 +117,8 @@
           <div class="popup-content">
             <h2>Variable Explanation</h2>
             <p>
-              Cumulative construction permits:<br>
-              Change in school capacity:
+              Cumulative construction permits in 5 years: The total number of construction permits issued within the five years leading up to the selected school year. For example, if you're predicting for SY26-27, it includes all permits from 2021 to 2025.<br>
+              Change in school capacity 5 years later: The percentage change in a school's capacity over a five-year period.  For example, if you're predicting for SY26-27, it compares capacity in SY26-27 to that in SY21-22.
             </p>
             <button id="scenario-help-close-btn">Got it</button>
           </div>
