@@ -28,18 +28,6 @@ enrollmentSlider.max = capacityValues.length - 1;
 enrollmentSlider.value = capacityValues.indexOf(0); // 默认值
 enrollmentValue.textContent = capacityValues[+enrollmentSlider.value];
 
-// 监听滑动变化，更新显示数值并刷新图表
-// constructionSlider.addEventListener('input', function () {
-//   const value = cumulativeValues[+this.value];
-//   constructionValue.textContent = value;
-//   updateScenario();
-// });
-
-// enrollmentSlider.addEventListener('input', function () {
-//   const value = capacityValues[+this.value];
-//   enrollmentValue.textContent = value;
-//   updateScenario();
-// });
 constructionSlider.addEventListener('input', function () {
   cumulative_permits = cumulativeValues[+this.value];
   constructionValue.textContent = cumulative_permits;
@@ -54,34 +42,6 @@ enrollmentSlider.addEventListener('input', function () {
   updateScenario();
 });
 
-// 核心函数：筛选数据并更新柱状图
-// function updateScenario() {
-//   const cumulativeVal = cumulativeValues[+constructionSlider.value];
-//   const capacityVal = capacityValues[+enrollmentSlider.value];
-
-//   const selectedFeature = getLastClickedFeature();
-//   const selectedYear = document.getElementById('school-year-select').value;
-
-//   if (!selectedFeature || !schoolData) {
-//     console.warn("No school selected or schoolData not loaded.");
-//     return;
-//   }
-
-//   const schoolName = selectedFeature.properties.school_name;
-
-//   const filtered = schoolData.features.filter(school =>
-//     school.properties.school_name === schoolName &&
-//     school.properties.school_year === selectedYear &&
-//     school.properties.cumulative_permits5yr === cumulativeVal &&
-//     school.properties.pct_change_capacity_5yrlater === capacityVal
-//   );
-
-//   console.log(`through slider Updating chart: ${schoolName}, ${selectedYear}, permits=${cumulativeVal}, capacity=${capacityVal}, matches=${filtered.length}`);
-
-//   if (filtered.length > 0) {
-//     createEnrollmentChart(filtered[0], schoolData);
-//   }
-// }
 function updateScenario() {
   const selectedFeature = getLastClickedFeature();
   const selectedYear = document.getElementById('school-year-select').value;

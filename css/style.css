@@ -176,17 +176,12 @@ select {
     margin-bottom: 20px;
     text-align: center; 
   }
-/*   
-  .slider-container label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-  } */
+
   .slider-title {
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* 让 label 和 slider 左对齐 */
+    align-items: flex-start; /* Align the label and slider to the left */
   }
   
   .slider-title label {
@@ -329,8 +324,8 @@ input[type="range"]::-webkit-slider-runnable-track {
 #scenario-help-btn img {
   width: 16px;
   height: 16px;
-  object-fit: contain; /* 防止拉伸变形 */
-  display: block;      /* 移除 img 下方多余空隙 */
+  object-fit: contain; 
+  display: block;      
 }
 
 #close-popup-btn, #scenario-help-close-btn {

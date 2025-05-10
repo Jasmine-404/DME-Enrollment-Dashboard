@@ -22,7 +22,7 @@ import { initializeScenarioPopup } from './popup.js';
 
 
 // Global variables
-export let schoolData;  // ← 添加这个
+export let schoolData;  
 let map;
 let markers = [];
 let hoodsLayer;
@@ -79,10 +79,9 @@ async function initApp() {
   capacityData = await capacityRes.json();
 
 function onMarkerClick(feature, data) {
-  setLastClickedFeature(feature);  // 更新 lastClickedFeature
+  setLastClickedFeature(feature);  // update lastClickedFeature
   const schoolName = feature.properties.school_name;
 
-  // 默认文字
   let capacityText = 'Not Available';
 
   if (capacityData && capacityData.features) {

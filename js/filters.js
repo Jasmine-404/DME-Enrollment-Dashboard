@@ -1,18 +1,6 @@
 import { createEnrollmentChart } from './chart.js';
 import { schoolData } from './main.js';
 
-// Functions for dropdown filters and selections
-
-// // Populate neighborhood dropdown
-// export function populateNeighborhoodDropdown(hoodsCollection) {
-//     const neighborhoodSelect = document.getElementById('ward-select');
-//     hoodsCollection.features.forEach(feature => {
-//       const option = document.createElement('option');
-//       option.value = feature.properties.NAME;
-//       option.text = feature.properties.NAME;
-//       neighborhoodSelect.add(option);
-//     });
-//   }
   
 export let lastClickedFeature = null;
 
@@ -24,7 +12,6 @@ export function getLastClickedFeature() {
   return lastClickedFeature;
 }
 
-// ✅ 用于设置 school year change 的监听器
 export function setupSchoolYearChartListener() {
   document.getElementById('school-year-select').addEventListener('change', function() {
     console.log("School year changed!");

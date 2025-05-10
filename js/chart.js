@@ -104,10 +104,9 @@ export function createEnrollmentTrendChart(feature, schoolData) {
     school.properties.pct_change_capacity_5yrlater === pct_change_capacity
   );
 
-  // 固定 school years 横轴顺序（如你项目范围）
+  // fix school years order
   const allYears = ["SY24-25", "SY25-26", "SY26-27", "SY27-28", "SY28-29", "SY29-30"];
 
-  // 构造：grade -> { year -> enrollment }
   const gradeMap = {};
 
   trendData.forEach(school => {
@@ -121,14 +120,14 @@ export function createEnrollmentTrendChart(feature, schoolData) {
     gradeMap[grade][year] = (gradeMap[grade][year] || 0) + enrollment;
   });
 
-  // 排序 grade：K, 1, 2, ..., 5
+  // sort grade：K, 1, 2, ..., 5
   const sortedGrades = Object.keys(gradeMap).sort((a, b) => {
     if (a === "K") return -1;
     if (b === "K") return 1;
     return parseInt(a) - parseInt(b);
   });
 
-  // 构造 datasets：每个 grade 一条线，按年份对齐
+  // Construct datasets: one line per grade, aligned by year
   const datasets = sortedGrades.map(grade => {
     return {
       label: grade,
@@ -145,7 +144,6 @@ export function createEnrollmentTrendChart(feature, schoolData) {
 
   const ctx = document.getElementById('line-chart').getContext('2d');
 
-  // 计算数据最大最小值
   const allValues = datasets.flatMap(d => d.data).filter(v => v !== null);
   const minVal = Math.floor(Math.min(...allValues) * 0.95);
   const maxVal = Math.ceil(Math.max(...allValues) * 1.05);
@@ -180,14 +178,6 @@ export function createEnrollmentTrendChart(feature, schoolData) {
           }
         },
 
-      // scales: {
-      //   y: {
-      //     beginAtZero: true,
-      //     title: {
-      //       display: true,
-      //       text: 'Enrollment'
-      //     }
-      //   },
         x: {
           title: {
             display: true,

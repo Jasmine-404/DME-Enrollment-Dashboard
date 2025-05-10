@@ -16,7 +16,7 @@
   <div id="title-container">
     <h1>DME Enrollment Dashboard</h1>
     <div id="button-container">
-      <button id="prediction-btn">Data</button>
+      <!-- <button id="prediction-btn">Data</button> -->
       <button id="about-btn">About</button>
     </div>
   </div>
@@ -86,7 +86,7 @@
       <!-- Scenario Panel -->
       <div id="scenario-panel" style="display: none;">
 
-          <!-- 🟡 问号图标按钮 -->
+          <!-- question mark button -->
         <button id="scenario-help-btn" >
           <img src="data/question-icon.png" alt="Help" style="width: 20px; height: 20px;">
         </button>
@@ -112,13 +112,12 @@
           </div>
           
         </div>
-        <!-- 弹出帮助框 -->
         <div id="scenario-help-popup" class="popup">
           <div class="popup-content">
             <h2>Variable Explanation</h2>
             <p>
-              Cumulative construction permits in 5 years: The total number of construction permits issued within the five years leading up to the selected school year. For example, if you're predicting for SY26-27, it includes all permits from 2021 to 2025.<br>
-              Change in school capacity 5 years later: The percentage change in a school's capacity over a five-year period.  For example, if you're predicting for SY26-27, it compares capacity in SY26-27 to that in SY21-22.
+              <strong>Cumulative construction permits in 5 years: </strong>The total number of construction permits issued within the five years leading up to the selected school year. <br>For example, if you're predicting for SY26-27, it includes all permits from 2021 to 2025.<br>
+              <strong>Change in school capacity 5 years later: </strong>The percentage change in a school's capacity over a five-year period.  <br>For example, if you're predicting for SY26-27, it compares capacity in SY26-27 to that in SY21-22.
             </p>
             <button id="scenario-help-close-btn">Got it</button>
           </div>

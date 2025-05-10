@@ -11,12 +11,6 @@ export function setupSchoolSearch(map, schoolData, markers, onMarkerClick) {
     const searchText = searchInput.value.trim().toLowerCase();
 
     if (searchText !== '') {
-      // Filter schools based on input
-      // const matchedSchools = schoolData.features.filter(feature => {
-      //   const schoolName = feature.properties.school_name.toLowerCase();
-      //   return schoolName.includes(searchText);
-      // });
-
       const matchedSchools = [];
       const seenNames = new Set();
 
@@ -69,19 +63,19 @@ function handleSchoolSearch(searchInput, map, schoolData, markers, suggestionsLi
   const searchText = searchInput.value.trim().toLowerCase();
 
   if (searchText === '') {
-    // 清除所有 markers
+    // remove all markers
     markers.forEach(marker => {
       map.removeLayer(marker);
     });
     markers.length = 0;
   
-    // 获取当前过滤条件
+    // Get the current filter condition
     const selectedYear = document.getElementById('school-year-select').value;
     const selectedGrade = document.getElementById('grade-select').value;
     const selectedSectors = Array.from(document.querySelectorAll('input[name="sector"]:checked')).map(cb => cb.value);
     const selectedWards = Array.from(document.querySelectorAll('input[name="ward"]:checked')).map(cb => cb.value);
   
-    // 手动过滤 schoolData
+    // filter schoolData
     const filteredData = {
       features: schoolData.features.filter(feature => {
         return (
@@ -95,7 +89,7 @@ function handleSchoolSearch(searchInput, map, schoolData, markers, suggestionsLi
       })
     };
   
-    // 去重（只保留每个学校+年级+学年的第一条记录）
+    // remove duplicates
     const seenKeys = new Set();
     const uniqueFeatures = [];
     filteredData.features.forEach(feature => {
@@ -106,7 +100,7 @@ function handleSchoolSearch(searchInput, map, schoolData, markers, suggestionsLi
       }
     });
   
-    // 加载回地图
+    // add back to map
     uniqueFeatures.forEach(feature => {
       const marker = L.circleMarker(
         [feature.geometry.coordinates[1], feature.geometry.coordinates[0]],
@@ -145,7 +139,7 @@ function handleSchoolSearch(searchInput, map, schoolData, markers, suggestionsLi
       markers.push(marker);
     });
   
-    // 清空建议列表
+    // Clear suggestion list
     suggestionsList.innerHTML = '';
     return;
   }
@@ -159,12 +153,7 @@ function handleSchoolSearch(searchInput, map, schoolData, markers, suggestionsLi
     
     // Clear the markers array
     markers.length = 0;
-
-    // Find matching schools
-    // const matchedSchools = schoolData.features.filter(feature => {
-    //   const schoolName = feature.properties.school_name.toLowerCase();
-    //   return schoolName === searchText;
-    // });
+    
     const seenKeys = new Set();
     const matchedSchools = [];
 
